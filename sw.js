@@ -1,4 +1,4 @@
-const CACHE = 'zhuyu-collection-v17';
+const CACHE = 'zhuyu-collection-v18';
 const ASSETS = [
   './',
   './index.html',
