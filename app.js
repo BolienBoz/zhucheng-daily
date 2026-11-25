@@ -50,7 +50,7 @@ const collectibles = [
 ];
 
 const missions = [
-  { id: 'layout', owner: '木亦', kind: '主案', title: '暖日店鋪配置', desc: '到小型店鋪進行現場勘查，安排展示、座位與工作空間。', reward: ['site_survey'], prompt: '尺寸與現況都記錄好了，大家也開始想像完成後的店鋪。' },
+  { id: 'layout', owner: '木亦', kind: '主案', title: '店鋪空間規劃', desc: '替委託店鋪勘查現場。派員後可開啟平面規劃，親自安排家具與動線。', reward: ['site_survey'], prompt: '尺寸與現況都記錄好了，大家也開始想像完成後的店鋪。' },
   { id: 'delivery', owner: '羽田', kind: '額外任務', title: '很快的裝修送件', desc: '整理正確版本，一起送出一般店鋪裝修資料。', reward: ['delivery'], prompt: '文件整理完成，羽田帶著大家精神滿滿地出發了。' },
   { id: 'birthday', owner: '事務所', kind: '日常', title: '準備生日驚喜', desc: '在本人發現前，把蛋糕和裝飾準備好。', reward: ['birthday'], prompt: '驚喜順利完成！今天的工作紀錄多了一張大家都在笑的照片。' },
   { id: 'pest', owner: '事務所', kind: '突發事件', title: '辦公室大騷動', desc: '保護模型和零食，處理突然出現的不速之客。', reward: ['pest'], prompt: '一陣混亂過後，模型、文件與零食全部平安，辦公室恢復了秩序。' },
@@ -90,18 +90,53 @@ let selectedMission = null;
 let selectedCharacters = [];
 let deferredInstallPrompt = null;
 const shopLayouts = [
-  { title: '咖啡店', feature: '雙人座', featureMark: '☕', extra: '餐具架', extraMark: '▤',
-    rule: '雙人座要放在最上排的窗邊。', validFeature: cell => cell < 5 },
-  { title: '花店', feature: '花台', featureMark: '❀', extra: '花器架', extraMark: '▤',
-    rule: '花台要靠右側牆，走道要能走到花台旁。', validFeature: cell => cell % 5 === 4 },
-  { title: '甜點店', feature: '甜點櫃', featureMark: '♢', extra: '包裝架', extraMark: '▤',
-    rule: '甜點櫃要緊鄰櫃台，走道也要能走到甜點櫃旁。', validFeature: (cell, counter) => layoutNeighbors(cell).includes(counter) }
+  {
+    title: '咖啡店', shape: 'L 形店面',
+    rows: ['WWW...', '......', '......', '###...', '###.E.'],
+    zone: '窗邊', zoneTile: 'W', zonePiece: 'table', zoneMin: 2,
+    pieces: [
+      { id: 'counter', name: '櫃台', mark: '櫃台', count: 1 },
+      { id: 'table', name: '雙人桌', mark: '桌', count: 3 },
+      { id: 'bench', name: '長椅', mark: '長椅', count: 1 },
+      { id: 'rack', name: '餐具架', mark: '餐具', count: 1 }
+    ]
+  },
+  {
+    title: '花店', shape: '窄入口、寬展示區',
+    rows: ['FF..#', 'F...#', '.....', '.....', '#...#', '#.E.#'],
+    zone: '展示區', zoneTile: 'F', zonePiece: 'stand', zoneMin: 2,
+    pieces: [
+      { id: 'counter', name: '櫃台', mark: '櫃台', count: 1 },
+      { id: 'stand', name: '花台', mark: '花台', count: 3 },
+      { id: 'vases', name: '花器架', mark: '花器', count: 1 },
+      { id: 'wrap', name: '包裝桌', mark: '包裝', count: 1 }
+    ]
+  },
+  {
+    title: '甜點店', shape: '階梯形店面',
+    rows: ['SSS###', '......', '......', '......', '##E.##'],
+    zone: '座位區', zoneTile: 'S', zonePiece: 'table', zoneMin: 2,
+    pieces: [
+      { id: 'counter', name: '櫃台', mark: '櫃台', count: 1 },
+      { id: 'case', name: '甜點展示櫃', mark: '甜點', count: 1 },
+      { id: 'table', name: '內用桌', mark: '桌', count: 2 },
+      { id: 'rack', name: '包裝架', mark: '包裝', count: 1 }
+    ],
+    adjacent: ['case', 'counter']
+  }
 ];
-const layoutEntry = 22;
-let shopIndex = 0;
-let layoutPieces = {};
-let selectedPiece = 'counter';
-let layoutFeedback = '';
+let shopDraft = null;
+const officeSeats = [0, 2, 4, 6, 8, 10, 12, 14];
+const initialSeats = { bolo: 0, husky: 2, toast: 12, tail: 14 };
+const deskItems = {
+  bolo: [['snack', '零食盒'], ['mug', '大馬克杯'], ['photo', '午睡照']],
+  husky: [['lamp', '手電筒'], ['toy', '兔子玩偶'], ['mug', '藍色杯']],
+  toast: [['swatch', '配色色票'], ['plant', '迷你植栽'], ['book', '材料筆記']],
+  tail: [['helmet', '大安全帽'], ['model', '小屋模型'], ['book', '實習筆記']]
+};
+let deskOwner = null;
+let officeSelection = 'bolo';
+let deskSelection = null;
 
 const app = document.querySelector('#app');
 const missionDialog = document.querySelector('#mission-dialog');
@@ -136,9 +171,10 @@ function updateChrome() {
 
 function render() {
   updateChrome();
-  if (state.view === 'missions') renderMissions();
+  if (shopDraft) renderShopLayout();
+  else if (state.view === 'missions') renderMissions();
   else if (state.view === 'album') renderAlbum();
-  else if (state.view === 'layout') renderShopLayout();
+  else if (state.view === 'layout') renderOfficeLayout();
   else renderOffice();
   app.focus({ preventScroll: true });
 }
@@ -154,7 +190,7 @@ function renderOffice() {
         <div class="button-row">
           <button class="button" type="button" data-view="missions">查看今天的任務</button>
           <button class="button secondary" type="button" data-view="album">翻開圖鑑</button>
-          <button class="button secondary" type="button" data-view="layout">玩桌上店鋪配置</button>
+          <button class="button secondary" type="button" data-view="layout">布置事務所</button>
           ${standalone ? '' : '<button class="button secondary install-button" type="button" data-install-app>安裝到手機主畫面</button>'}
         </div>
         ${standalone ? '' : '<p class="install-note">Android：瀏覽器選單選擇「安裝應用程式」・iPhone：Safari 分享後選擇「加入主畫面」。安裝完成後可離線遊玩。</p>'}
@@ -170,111 +206,231 @@ function renderOffice() {
     </section>`;
 }
 
-function layoutNeighbors(cell) {
+function layoutNeighbors(shop, cell) {
+  const width = shop.rows[0].length;
   const neighbors = [];
-  if (cell >= 5) neighbors.push(cell - 5);
-  if (cell < 20) neighbors.push(cell + 5);
-  if (cell % 5 > 0) neighbors.push(cell - 1);
-  if (cell % 5 < 4) neighbors.push(cell + 1);
+  if (cell >= width) neighbors.push(cell - width);
+  if (cell < (shop.rows.length - 1) * width) neighbors.push(cell + width);
+  if (cell % width > 0) neighbors.push(cell - 1);
+  if (cell % width < width - 1) neighbors.push(cell + 1);
   return neighbors;
 }
 
-function checkShopLayout(shop, pieces) {
-  if (Object.keys(pieces).length < 3) return '請先放好三件家具。';
-  if (!shop.validFeature(pieces.feature, pieces.counter)) return shop.rule;
+function placedCount(placements, id) {
+  return [...placements.values()].filter(piece => piece === id).length;
+}
 
-  const blocked = new Set(Object.values(pieces));
-  const reachable = new Set([layoutEntry]);
-  const queue = [layoutEntry];
+function checkShopLayout(shop, placements) {
+  const tiles = shop.rows.join('');
+  const missing = shop.pieces.find(piece => placedCount(placements, piece.id) < piece.count);
+  if (missing) return `${missing.name}還缺 ${missing.count - placedCount(placements, missing.id)} 件。`;
+
+  const inZone = [...placements].filter(([cell, id]) => id === shop.zonePiece && tiles[cell] === shop.zoneTile);
+  if (inZone.length < shop.zoneMin) return `請在${shop.zone}放至少 ${shop.zoneMin} 件${shop.pieces.find(piece => piece.id === shop.zonePiece).name}。`;
+  if (shop.adjacent) {
+    const [first, second] = shop.adjacent.map(id => [...placements].find(([, piece]) => piece === id)[0]);
+    if (!layoutNeighbors(shop, first).includes(second)) return '甜點展示櫃要緊鄰櫃台。';
+  }
+
+  const entry = tiles.indexOf('E');
+  const reachable = new Set([entry]);
+  const queue = [entry];
   for (const cell of queue) {
-    for (const neighbor of layoutNeighbors(cell)) {
-      if (blocked.has(neighbor) || reachable.has(neighbor)) continue;
+    for (const neighbor of layoutNeighbors(shop, cell)) {
+      if (tiles[neighbor] === '#' || placements.has(neighbor) || reachable.has(neighbor)) continue;
       reachable.add(neighbor);
       queue.push(neighbor);
     }
   }
-  for (const [id, label] of [['counter', '櫃台'], ['feature', shop.feature]]) {
-    if (!layoutNeighbors(pieces[id]).some(cell => reachable.has(cell))) {
-      return `從入口走不到${label}旁，試著留一條空格走道。`;
+  for (const [cell, id] of placements) {
+    if (!layoutNeighbors(shop, cell).some(neighbor => reachable.has(neighbor))) {
+      const name = shop.pieces.find(piece => piece.id === id).name;
+      return `從入口走不到第 ${Math.floor(cell / shop.rows[0].length) + 1} 排的${name}旁。請留一條空格走道。`;
     }
   }
-  return `配置完成！入口到櫃台和${shop.feature}的走道都暢通。`;
+  return null;
+}
+
+function furnitureModel(id) {
+  return `<span class="furniture furniture-${id}" aria-hidden="true"><i></i><i></i><i></i></span>`;
 }
 
 function renderShopLayout(focusSelector) {
-  const shop = shopLayouts[shopIndex];
-  const pieces = [
-    { id: 'counter', name: '櫃台', mark: '▰' },
-    { id: 'feature', name: shop.feature, mark: shop.featureMark },
-    { id: 'extra', name: shop.extra, mark: shop.extraMark }
-  ];
+  const draft = shopDraft;
+  const shop = draft.shop;
+  const width = shop.rows[0].length;
+  const zoneFurniture = shop.pieces.find(piece => piece.id === shop.zonePiece).name;
   app.innerHTML = `
     <section class="panel shop-layout">
-      <h2>桌上店鋪配置</h2>
-      <div class="shop-options" aria-label="選擇店型">
-        ${shopLayouts.map((item, index) => `<button type="button" data-shop="${index}" aria-pressed="${index === shopIndex}">${item.title}</button>`).join('')}
-      </div>
-      <p>點家具再點格子。再點一次原位可收回家具，點別的空格可移動。</p>
-      <p class="shop-rule">從入口要能沿空格走到櫃台和${shop.feature}旁。${shop.rule}</p>
+      <h2>案件店鋪平面規劃</h2>
+      <p>${shop.title}委託案｜${characterNames(selectedCharacters)}</p>
+      <p>點家具再點空格。點已放好的家具可選取，接著點空格移動，或再點原位收回。</p>
+      <p class="shop-rule">放齊家具，讓入口能走到每件家具旁。${shop.zone}至少放 ${shop.zoneMin} 件${zoneFurniture}。${shop.adjacent ? ' 甜點展示櫃要緊鄰櫃台。' : ''}</p>
       <div class="shop-options" aria-label="選擇家具">
-        ${pieces.map(piece => `<button type="button" data-piece="${piece.id}" aria-pressed="${selectedPiece === piece.id}">${piece.mark} ${piece.name}</button>`).join('')}
+        ${shop.pieces.map(piece => `<button type="button" class="furniture-option" data-piece="${piece.id}" aria-pressed="${draft.moving === null && draft.selected === piece.id}">${furnitureModel(piece.id)} <span>${piece.name} ${placedCount(draft.placements, piece.id)}／${piece.count}</span></button>`).join('')}
       </div>
-      <div class="shop-window">窗邊</div>
-      <div class="shop-grid" role="group" aria-label="${shop.title}平面圖">
-        ${Array.from({ length: 25 }, (_, cell) => {
-          const piece = pieces.find(item => layoutPieces[item.id] === cell);
-          const entry = cell === layoutEntry;
-          const label = entry ? '入口' : piece?.name || '空格';
-          return `<button type="button" class="shop-cell ${piece ? 'occupied' : ''} ${entry ? 'entry' : ''}" data-shop-cell="${cell}" aria-label="第 ${Math.floor(cell / 5) + 1} 排第 ${cell % 5 + 1} 格，${label}" ${entry ? 'disabled' : ''}>${piece ? piece.mark : entry ? '入口' : ''}</button>`;
+      <div class="shop-plan-label">${shop.shape} <span>藍色格為${shop.zone}</span></div>
+      <div class="shop-grid" style="--shop-columns:${width}" role="group" aria-label="${shop.title}平面圖">
+        ${[...shop.rows.join('')].map((tile, cell) => {
+          if (tile === '#') return '<span class="shop-void" aria-hidden="true"></span>';
+          if (tile === 'E') return '<span class="shop-cell entry">入口</span>';
+          const piece = shop.pieces.find(item => draft.placements.get(cell) === item.id);
+          const zone = tile === shop.zoneTile;
+          const label = [zone ? shop.zone : '', piece?.name || '空格'].filter(Boolean).join('，');
+          return `<button type="button" class="shop-cell ${piece ? 'occupied' : ''} ${zone ? 'shop-zone' : ''}" data-shop-cell="${cell}" aria-pressed="${draft.moving === cell}" aria-label="第 ${Math.floor(cell / width) + 1} 排第 ${cell % width + 1} 格，${label}">${piece ? furnitureModel(piece.id) : ''}</button>`;
         }).join('')}
       </div>
       <div class="shop-options">
-        <button type="button" class="button" data-check-layout>檢查配置</button>
+        <button type="button" class="button" data-check-layout>檢查並交付配置</button>
         <button type="button" class="button secondary" data-reset-layout>重新布置</button>
+        <button type="button" class="button secondary" data-back-mission>回到任務選人</button>
       </div>
       <p class="shop-feedback" role="status"></p>
     </section>`;
-  if (layoutFeedback) app.querySelector('.shop-feedback').textContent = layoutFeedback;
+  if (draft.feedback) app.querySelector('.shop-feedback').textContent = draft.feedback;
   if (focusSelector) app.querySelector(focusSelector)?.focus({ preventScroll: true });
 }
 
 function handleShopLayoutClick(target) {
-  const shop = target.closest('[data-shop]');
   const piece = target.closest('[data-piece]');
   const tile = target.closest('[data-shop-cell]');
-  if (shop) {
-    const index = Number(shop.dataset.shop);
-    if (shopIndex === index) return;
-    shopIndex = index;
-    layoutPieces = {};
-    selectedPiece = 'counter';
-    layoutFeedback = '';
-    renderShopLayout(`[data-shop="${index}"]`);
-  } else if (piece) {
-    selectedPiece = piece.dataset.piece;
-    renderShopLayout(`[data-piece="${selectedPiece}"]`);
+  const draft = shopDraft;
+  if (piece) {
+    draft.selected = piece.dataset.piece;
+    draft.moving = null;
+    draft.feedback = '';
+    renderShopLayout(`[data-piece="${draft.selected}"]`);
   } else if (tile) {
     const cell = Number(tile.dataset.shopCell);
-    if (cell === layoutEntry) return;
-    const occupant = Object.keys(layoutPieces).find(id => layoutPieces[id] === cell);
-    if (occupant === selectedPiece) {
-      delete layoutPieces[selectedPiece];
-    } else if (occupant) {
-      app.querySelector('.shop-feedback').textContent = '這格已有家具，請先移開，或選擇另一格。';
-      return;
+    const shopLayout = draft.shop;
+    const floorTile = shopLayout.rows.join('')[cell];
+    if (!floorTile || '#E'.includes(floorTile)) return;
+    draft.feedback = '';
+    if (draft.moving === cell) {
+      draft.placements.delete(cell);
+      draft.moving = null;
+    } else if (draft.placements.has(cell)) {
+      draft.moving = cell;
+      draft.selected = draft.placements.get(cell);
+      draft.feedback = '已選取家具。點空格移動，或再點原位收回。';
+    } else if (draft.moving !== null) {
+      draft.placements.set(cell, draft.placements.get(draft.moving));
+      draft.placements.delete(draft.moving);
+      draft.moving = null;
     } else {
-      layoutPieces[selectedPiece] = cell;
+      const furniture = shopLayout.pieces.find(item => item.id === draft.selected);
+      if (placedCount(draft.placements, furniture.id) >= furniture.count) {
+        draft.feedback = `${furniture.name}已放齊。可點已放好的家具移動，或改選其他家具。`;
+      } else {
+        draft.placements.set(cell, furniture.id);
+      }
     }
-    layoutFeedback = '';
     renderShopLayout(`[data-shop-cell="${cell}"]`);
   } else if (target.closest('[data-check-layout]')) {
-    layoutFeedback = checkShopLayout(shopLayouts[shopIndex], layoutPieces);
-    app.querySelector('.shop-feedback').textContent = layoutFeedback;
+    draft.feedback = checkShopLayout(draft.shop, draft.placements);
+    if (!draft.feedback) {
+      shopDraft = null;
+      render();
+      completeMission(`${draft.shop.title}的平面配置已交付。`);
+      return;
+    }
+    app.querySelector('.shop-feedback').textContent = draft.feedback;
   } else if (target.closest('[data-reset-layout]')) {
-    layoutPieces = {};
-    selectedPiece = 'counter';
-    layoutFeedback = '';
+    draft.placements.clear();
+    draft.selected = 'counter';
+    draft.moving = null;
+    draft.feedback = '';
     renderShopLayout('[data-reset-layout]');
+  } else if (target.closest('[data-back-mission]')) {
+    shopDraft = null;
+    render();
+    drawMissionDialog();
+    missionDialog.showModal();
+  }
+}
+
+function renderOfficeLayout(focusSelector) {
+  const seats = state.officeSeats || initialSeats;
+  if (deskOwner) {
+    const items = deskItems[deskOwner];
+    const slots = state.deskSlots?.[deskOwner] || [];
+    app.innerHTML = `
+      <section class="panel shop-layout office-design">
+        <button type="button" class="button secondary" data-seat-plan>回事務所座位圖</button>
+        <h2>${character(deskOwner).name}的桌面</h2>
+        <p>挑一件小物，放到桌面上的位置。點同一件小物可收回。</p>
+        <div class="shop-options" aria-label="桌面小物">
+          ${items.map(([id, name]) => `<button type="button" data-desk-item="${id}" aria-pressed="${deskSelection === id}">${name}</button>`).join('')}
+        </div>
+        <div class="desk-scene" role="group" aria-label="${character(deskOwner).name}的透視桌面">
+          <div class="desk-wall" aria-hidden="true"></div><div class="desk-surface" aria-hidden="true"></div>
+          ${Array.from({ length: 4 }, (_, index) => {
+            const item = items.find(([id]) => id === slots[index]);
+            return `<button type="button" class="desk-slot" data-desk-slot="${index}" aria-label="桌面位置 ${index + 1}，${item?.[1] || '空位'}">${item ? `<span class="desk-prop prop-${item[0]}" aria-hidden="true"><i></i></span><span>${item[1]}</span>` : '<span>空位</span>'}</button>`;
+          }).join('')}
+        </div>
+        <p class="office-note" role="status"></p>
+      </section>`;
+  } else {
+    app.innerHTML = `
+      <section class="panel shop-layout office-design">
+        <h2>築城事務所布置</h2>
+        <p>選一位成員，再點平面圖上的座位。點已有人使用的座位會交換位置。</p>
+        <div class="shop-options" aria-label="選擇要移動的成員">
+          ${characters.map(c => `<button type="button" data-office-member="${c.id}" aria-pressed="${officeSelection === c.id}">${c.name}</button>`).join('')}
+        </div>
+        <div class="office-floor" role="group" aria-label="事務所座位平面圖">
+          ${Array.from({ length: 15 }, (_, cell) => {
+            if (!officeSeats.includes(cell)) return `<span class="office-aisle">${cell === 7 ? '走道' : cell === 13 ? '入口' : ''}</span>`;
+            const occupant = characters.find(c => seats[c.id] === cell);
+            return `<button type="button" class="office-seat" data-office-seat="${cell}" aria-label="座位 ${officeSeats.indexOf(cell) + 1}，${occupant?.name || '空席'}">${furnitureModel('office')}<span>${occupant?.name || '空席'}</span></button>`;
+          }).join('')}
+        </div>
+        <div class="button-row"><button class="button" type="button" data-open-desk>布置${character(officeSelection).name}的桌面</button></div>
+        <p class="office-note" role="status"></p>
+      </section>`;
+  }
+  if (focusSelector) app.querySelector(focusSelector)?.focus({ preventScroll: true });
+}
+
+function handleOfficeLayoutClick(target) {
+  const member = target.closest('[data-office-member]');
+  const seat = target.closest('[data-office-seat]');
+  const item = target.closest('[data-desk-item]');
+  const slot = target.closest('[data-desk-slot]');
+  if (member) {
+    officeSelection = member.dataset.officeMember;
+    renderOfficeLayout(`[data-office-member="${officeSelection}"]`);
+  } else if (seat) {
+    const position = Number(seat.dataset.officeSeat);
+    const seats = { ...initialSeats, ...state.officeSeats };
+    const occupant = characters.find(c => c.id !== officeSelection && seats[c.id] === position);
+    if (occupant) seats[occupant.id] = seats[officeSelection];
+    seats[officeSelection] = position;
+    state.officeSeats = seats;
+    saveState();
+    renderOfficeLayout(`[data-office-seat="${position}"]`);
+    app.querySelector('.office-note').textContent = '座位配置已儲存。';
+  } else if (target.closest('[data-open-desk]')) {
+    deskOwner = officeSelection;
+    deskSelection = deskItems[deskOwner][0][0];
+    renderOfficeLayout('[data-seat-plan]');
+  } else if (target.closest('[data-seat-plan]')) {
+    deskOwner = null;
+    renderOfficeLayout('[data-open-desk]');
+  } else if (item) {
+    deskSelection = item.dataset.deskItem;
+    renderOfficeLayout(`[data-desk-item="${deskSelection}"]`);
+  } else if (slot) {
+    const position = Number(slot.dataset.deskSlot);
+    const slots = Array.from({ length: 4 }, (_, index) => state.deskSlots?.[deskOwner]?.[index] || null);
+    const previous = slots.indexOf(deskSelection);
+    if (previous !== -1) slots[previous] = previous === position ? null : slots[position];
+    if (previous !== position) slots[position] = deskSelection;
+    state.deskSlots = { ...state.deskSlots, [deskOwner]: slots };
+    saveState();
+    renderOfficeLayout(`[data-desk-slot="${position}"]`);
+    app.querySelector('.office-note').textContent = '桌面布置已儲存。';
   }
 }
 
@@ -369,7 +525,10 @@ function drawMissionDialog() {
       }).join('')}
     </div>
     <p class="hint">${selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
-    <div class="button-row"><button class="button" type="button" data-start-mission ${canStartMission() ? '' : 'disabled'}>開始任務</button></div>`;
+    <div class="button-row">
+      ${selectedMission.id === 'layout' ? `<button class="button" type="button" data-plan-shop ${canStartMission() ? '' : 'disabled'}>規劃${shopLayouts[(state.day - 1) % shopLayouts.length].title}平面</button>` : ''}
+      <button class="button ${selectedMission.id === 'layout' ? 'secondary' : ''}" type="button" data-start-mission ${canStartMission() ? '' : 'disabled'}>${selectedMission.id === 'layout' ? '直接完成勘查' : '開始任務'}</button>
+    </div>`;
 }
 
 function toggleCharacter(id) {
@@ -381,9 +540,9 @@ function toggleCharacter(id) {
   missionDialog.querySelector(`[data-character="${id}"]`)?.focus({ preventScroll: true });
 }
 
-function completeMission() {
+function completeMission(planSummary = '') {
   const mission = selectedMission;
-  if (!mission || !canStartMission()) return;
+  if (!mission || !canStartMission() || state.actions <= 0 || state.completedToday.includes(mission.id)) return;
   const available = mission.reward.filter(id => !state.unlocked.includes(id));
   let rewardId = available[0] || mission.reward[Math.floor(Math.random() * mission.reward.length)];
   const isNew = !state.unlocked.includes(rewardId);
@@ -406,7 +565,7 @@ function completeMission() {
     <img class="unlock-image" src="${reward.image}" alt="${reward.title}">
     <p class="eyebrow">${isNew ? 'NEW COLLECTION' : 'MEMORY STICKER'}</p>
     <h2>${isNew ? reward.title : '獲得回憶貼紙'}</h2>
-    <p>${names}完成了「${mission.title}」。${mission.prompt}</p>
+    <p>${names}完成了「${mission.title}」。${mission.prompt}${planSummary}</p>
     <p>${isNew ? reward.text : `「${reward.title}」已經收集過，這次轉成一枚回憶貼紙。`}${newPersonalCards.length ? ` 同時新增 ${newPersonalCards.length} 張個人圖鑑卡。` : ''}${newBonusCards.length ? ` 並取得條件收藏卡「${newBonusCards.map(id => byId(id).title).join('、')}」。` : ''}</p>
     <button class="button" type="button" data-finish-result>${state.actions ? '繼續今天' : '查看今日結束'}</button>`;
   resultDialog.showModal();
@@ -428,8 +587,9 @@ async function installApp() {
 
 document.addEventListener('click', event => {
   const view = event.target.closest('[data-view]')?.dataset.view;
-  if (view) { state.view = view; saveState(); render(); return; }
-  if (state.view === 'layout') { handleShopLayoutClick(event.target); return; }
+  if (view) { shopDraft = null; state.view = view; saveState(); render(); return; }
+  if (shopDraft) { handleShopLayoutClick(event.target); return; }
+  if (state.view === 'layout') { handleOfficeLayoutClick(event.target); return; }
   const missionId = event.target.closest('[data-mission]')?.dataset.mission;
   if (missionId) { openMission(missionId); return; }
   const characterId = event.target.closest('[data-character]')?.dataset.character;
@@ -439,6 +599,15 @@ document.addEventListener('click', event => {
   if (event.target.closest('[data-install-app]')) { installApp(); return; }
   if (event.target.closest('[data-close]')) missionDialog.close();
   if (event.target.closest('[data-close-collection]')) collectionDialog.close();
+  if (event.target.closest('[data-plan-shop]') && selectedMission?.id === 'layout' && canStartMission()) {
+    shopDraft = {
+      shop: shopLayouts[(state.day - 1) % shopLayouts.length],
+      placements: new Map(), selected: 'counter', moving: null, feedback: ''
+    };
+    missionDialog.close();
+    render();
+    return;
+  }
   if (event.target.closest('[data-start-mission]')) completeMission();
   if (event.target.closest('[data-finish-result]')) { resultDialog.close(); state.view = state.actions ? 'missions' : 'missions'; saveState(); render(); }
   if (event.target.closest('[data-next-day]')) nextDay();
