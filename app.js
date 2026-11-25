@@ -47,6 +47,12 @@ const collectibles = [
   ,{ id: 'birthday_husky', group: 'character', type: '生日卡', title: '姑姑羅・生日惡作劇', hint: '讓姑姑羅單獨完成「姑姑羅生日驚喜」', image: 'assets/birthday-husky.jpg', text: '看似乖乖等著吹蠟燭，其實早已準備好下一秒彈出的彩帶。' }
   ,{ id: 'birthday_toast', group: 'character', type: '生日卡', title: '香蕉吐司・生日配色', hint: '讓香蕉吐司單獨完成「香蕉吐司生日配色」', image: 'assets/birthday-toast.jpg', text: '連生日蛋糕的緞帶也要仔細比較，最後選出了最剛好的粉紅與橄欖綠。' }
   ,{ id: 'birthday_tail', group: 'character', type: '生日卡', title: '小尾巴・第一次許願', hint: '讓小尾巴單獨完成「小尾巴生日許願」', image: 'assets/birthday-tail.jpg', text: '小小的蠟燭照亮窗邊，第一次在事務所許下了不告訴任何人的願望。' }
+  ,{ id: 'winter_window', group: 'activity', type: '活動', title: '櫥窗裡的雪國小鎮', hint: '完成「布置冬日櫥窗」', image: 'assets/activity-window-display.jpg', text: '紙雪花落在小屋模型上，街角櫥窗變成了等人停下腳步的冬日小鎮。' }
+  ,{ id: 'winter_wrapping', group: 'activity', type: '日常', title: '事務所的禮物包裝夜', hint: '完成「準備聖誕交換禮物」', image: 'assets/activity-gift-workshop.jpg', text: '牛皮紙、緞帶和小卡堆滿工作桌。有人很認真地打蝴蝶結，有人偷偷晃了晃自己的禮物。' }
+  ,{ id: 'christmas_bolo', group: 'character', type: '服裝卡', title: '波蘿胖胖・聖誕餅乾時間', hint: '派波蘿胖胖參與「準備聖誕交換禮物」', image: 'assets/costume-bolo-christmas-v3.jpg', text: '換上暖暖的節日毛衣，抱著那盒答應要和大家分享的餅乾。' }
+  ,{ id: 'christmas_husky', group: 'character', type: '服裝卡', title: '姑姑羅・銀鈴小精靈', hint: '派姑姑羅參與「布置冬日櫥窗」', image: 'assets/costume-husky-christmas.jpg', text: '銀鈴叮一聲，藏在背後的緞帶就差點露餡。' }
+  ,{ id: 'christmas_toast', group: 'character', type: '服裝卡', title: '香蕉吐司・冬青緞帶', hint: '派香蕉吐司參與「準備聖誕交換禮物」', image: 'assets/costume-toast-christmas.jpg', text: '冬青綠背心配上格紋蝴蝶結，禮物的緞帶當然也要挑剛好的顏色。' }
+  ,{ id: 'christmas_tail', group: 'character', type: '服裝卡', title: '小尾巴・捧星小斗篷', hint: '派小尾巴參與「布置冬日櫥窗」', image: 'assets/costume-tail-christmas.jpg', text: '披上小斗篷，踮著腳想把最亮的一顆星星掛上去。' }
 ];
 
 const missions = [
@@ -78,9 +84,11 @@ const missions = [
   ,{ id: 'birthday_husky_mission', owner: '事務所', kind: '限定生日', title: '姑姑羅生日驚喜', desc: '小心準備彩帶與蛋糕，也要提防生日主角先一步發現機關。', reward: ['birthday_husky'], requiredCharacters: ['husky'], prompt: '姑姑羅不只發現了驚喜，還偷偷把彩帶機關改得更有趣。' }
   ,{ id: 'birthday_toast_mission', owner: '事務所', kind: '限定生日', title: '香蕉吐司生日配色', desc: '挑出蛋糕、緞帶與裝飾最協調的一組生日配色。', reward: ['birthday_toast'], requiredCharacters: ['toast'], prompt: '每一塊色票都比較完成，生日角落呈現出最舒服的配色。' }
   ,{ id: 'birthday_tail_mission', owner: '事務所', kind: '限定生日', title: '小尾巴生日許願', desc: '在夕陽落下後，替第一次在事務所過生日的小尾巴點亮蠟燭。', reward: ['birthday_tail'], requiredCharacters: ['tail'], prompt: '小尾巴閉上眼睛許了願，也把這個傍晚好好記了下來。' }
+  ,{ id: 'winter_display', owner: '羽田', kind: '節日委託', title: '布置冬日櫥窗', desc: '替店鋪布置冬日櫥窗，把紙雪花、小屋模型與星星分層擺好。', reward: ['winter_window'], participantBonuses: { husky: 'christmas_husky', tail: 'christmas_tail' }, prompt: '路過的人停在玻璃前，數起櫥窗裡亮著燈的小屋。' }
+  ,{ id: 'winter_gifts', owner: '事務所', kind: '節日活動', title: '準備聖誕交換禮物', desc: '用牛皮紙和緞帶包好禮物，再把名字卡放到一旁。', reward: ['winter_wrapping'], participantBonuses: { bolo: 'christmas_bolo', toast: 'christmas_toast' }, prompt: '所有禮物都包好了。接下來只要忍住不猜盒子裡裝了什麼。' }
 ];
 
-const NEW_MISSION_IDS = new Set(['archive', 'woodshop', 'birthday_bolo_mission', 'birthday_husky_mission', 'birthday_toast_mission', 'birthday_tail_mission']);
+const NEW_MISSION_IDS = new Set(['winter_display', 'winter_gifts']);
 
 const MAX_DAILY_ACTIONS = 5;
 const RULES_VERSION = 2;
@@ -138,7 +146,9 @@ const officeFurniture = [
   { id: 'spare', name: '空席', model: 'office', cell: 5 },
   { id: 'shared', name: '公共桌', model: 'table', cell: 14 },
   { id: 'tea', name: '茶水間', model: 'counter', cell: 16 },
-  ...[21, 23, 25].map((cell, index) => ({ id: `bookcase${index + 1}`, name: `書櫃 ${index + 1}`, model: 'rack', cell }))
+  ...[21, 23, 25].map((cell, index) => ({ id: `bookcase${index + 1}`, name: `書櫃 ${index + 1}`, model: 'rack', cell })),
+  { id: 'copier', name: '影印機', model: 'copier', cell: 17 },
+  { id: 'low-cabinet', name: '矮櫃', model: 'low-cabinet', cell: 18 }
 ];
 const propCatalog = [
   ['snack', '零食盒'], ['mug', '大馬克杯'], ['photo', '午睡照'], ['lamp', '手電筒'],
@@ -153,7 +163,9 @@ const deskItems = {
   tail: ['helmet', 'model', 'book', 'pencils', 'tape', 'toy']
 };
 let deskOwner = null;
-let officeSelection = 'bolo';
+let officeSelection = null;
+let officeDrag = null;
+let suppressOfficeClick = false;
 let deskSelection = null;
 
 const app = document.querySelector('#app');
@@ -368,11 +380,20 @@ function handleShopLayoutClick(target) {
 }
 
 function officePositions() {
-  if (state.officePlan) return state.officePlan;
-  return Object.fromEntries(officeFurniture.map(furniture => {
+  const positions = { ...state.officePlan };
+  const occupied = new Set(Object.values(positions).map(item => item.cell));
+  for (const furniture of officeFurniture) {
+    if (positions[furniture.id]) continue;
     const prior = state.officeSeats?.[furniture.id] ?? initialSeats[furniture.id];
-    return [furniture.id, { cell: furniture.cell ?? migratedOfficeCells[prior], angle: 0 }];
-  }));
+    let cell = furniture.cell ?? migratedOfficeCells[prior];
+    if (occupied.has(cell)) {
+      cell = Array.from({ length: 30 }, (_, index) => index)
+        .find(index => !officeFixed[index] && !occupied.has(index));
+    }
+    occupied.add(cell);
+    positions[furniture.id] = { cell, angle: 0 };
+  }
+  return positions;
 }
 
 function deskPositions(owner) {
@@ -420,15 +441,15 @@ function renderOfficeLayout(focusSelector) {
     app.innerHTML = `
       <section class="panel shop-layout office-design office-plan">
         <h2>築城事務所座位圖</h2>
-        <p>選家具，再點格子移動。點到另一件家具會互換位置。手機可左右滑動查看整張圖。</p>
+        <p>直接點家具，再點空格移動。也可以拖曳家具，拖到另一件家具上會交換位置。手機可在空格或欄號上左右滑動。</p>
         <div class="shop-options office-tools">
-          <label>配置項目 <select data-office-member>${officeFurniture.map(item => `<option value="${item.id}" ${item.id === officeSelection ? 'selected' : ''}>${item.name}</option>`).join('')}</select></label>
-          <button type="button" class="button secondary" data-rotate-office>旋轉 90°</button>
+          <span>${selected ? `已選取 ${selected.name}` : '請點選家具或座位'}</span>
+          <button type="button" class="button secondary" data-rotate-office ${selected ? '' : 'disabled'}>旋轉 90°</button>
         </div>
         <div class="office-scroll" tabindex="0" aria-label="左右捲動事務所平面圖">
-          <div class="office-floor" role="group" aria-label="事務所 10 欄 3 列座位平面圖">
-            <span></span>${Array.from({ length: 10 }, (_, index) => `<span class="office-axis">${index + 1}</span>`).join('')}
-            ${[0, 1, 2].map(row => `<span class="office-axis">${row + 1}</span>${Array.from({ length: 10 }, (_, col) => {
+          <div class="office-floor" role="group" aria-label="事務所座位平面圖，欄位 0 至 10">
+            <span></span>${Array.from({ length: 11 }, (_, index) => `<span class="office-axis">${index}</span>`).join('')}
+            ${[0, 1, 2].map(row => `<span class="office-axis">${row + 1}</span><span class="office-locked locked-balcony" aria-label="0-${row + 1} 陽台，固定">陽台</span>${Array.from({ length: 10 }, (_, col) => {
               const cell = row * 10 + col;
               const fixed = officeFixed[cell];
               const coord = `${col + 1}-${row + 1}`;
@@ -438,12 +459,26 @@ function renderOfficeLayout(focusSelector) {
             }).join('')}`).join('')}
           </div>
         </div>
-        <div class="button-row">${character(selected.id) ? `<button class="button" type="button" data-open-desk>布置${selected.name}的桌面</button>` : ''}</div>
+        ${selected && character(selected.id) ? `<div class="button-row"><button class="button" type="button" data-open-desk>布置${selected.name}的桌面</button></div>` : ''}
         <p class="office-note" role="status"></p>
       </section>`;
     app.querySelector('.office-scroll').scrollLeft = left;
   }
   if (focusSelector) app.querySelector(focusSelector)?.focus({ preventScroll: true });
+}
+
+function moveOfficeFurniture(id, cell) {
+  if (!Number.isInteger(cell) || cell < 0 || cell >= 30 || officeFixed[cell]) return;
+  const positions = officePositions();
+  const current = positions[id];
+  const other = officeFurniture.find(item => item.id !== id && positions[item.id].cell === cell);
+  if (other) positions[other.id].cell = current.cell;
+  current.cell = cell;
+  officeSelection = id;
+  state.officePlan = positions;
+  saveState();
+  renderOfficeLayout(`[data-office-seat="${cell}"]`);
+  app.querySelector('.office-note').textContent = '平面配置已儲存。';
 }
 
 function handleOfficeLayoutClick(event) {
@@ -452,21 +487,24 @@ function handleOfficeLayoutClick(event) {
   const item = target.closest('[data-desk-item], [data-desk-object]');
   const placement = target.closest('[data-desk-place]');
   const rotate = target.closest('[data-rotate-office]');
-  if (seat || rotate) {
+  if (seat) {
+    if (suppressOfficeClick) { suppressOfficeClick = false; return; }
+    const cell = Number(seat.dataset.officeSeat);
+    const positions = officePositions();
+    const occupant = officeFurniture.find(item => positions[item.id].cell === cell);
+    if (occupant) {
+      officeSelection = occupant.id;
+      renderOfficeLayout(`[data-office-seat="${cell}"]`);
+    } else if (officeSelection) {
+      moveOfficeFurniture(officeSelection, cell);
+    }
+  } else if (rotate && officeSelection) {
     const positions = officePositions();
     const current = positions[officeSelection];
-    const cell = seat ? Number(seat.dataset.officeSeat) : current.cell;
-    if (officeFixed[cell]) return;
-    if (seat) {
-      const occupant = officeFurniture.find(item => item.id !== officeSelection && positions[item.id].cell === cell);
-      if (occupant) positions[occupant.id].cell = current.cell;
-      current.cell = cell;
-    } else {
-      current.angle = (current.angle + 90) % 360;
-    }
+    current.angle = (current.angle + 90) % 360;
     state.officePlan = positions;
     saveState();
-    renderOfficeLayout(seat ? `[data-office-seat="${cell}"]` : '[data-rotate-office]');
+    renderOfficeLayout('[data-rotate-office]');
     app.querySelector('.office-note').textContent = '平面配置已儲存。';
   } else if (target.closest('[data-open-desk]')) {
     deskOwner = officeSelection;
@@ -497,10 +535,46 @@ function handleOfficeLayoutClick(event) {
   }
 }
 
-app.addEventListener('change', event => {
-  if (!event.target.matches('[data-office-member]')) return;
-  officeSelection = event.target.value;
-  renderOfficeLayout('[data-office-member]');
+app.addEventListener('pointerdown', event => {
+  suppressOfficeClick = false;
+  const seat = event.target.closest('.office-seat.has-furniture');
+  if (!seat || !event.isPrimary || event.button !== 0) return;
+  const cell = Number(seat.dataset.officeSeat);
+  const positions = officePositions();
+  const id = officeFurniture.find(item => positions[item.id].cell === cell).id;
+  officeDrag = { id, pointerId: event.pointerId, x: event.clientX, y: event.clientY, source: seat, target: null };
+  seat.setPointerCapture(event.pointerId);
+});
+
+app.addEventListener('pointermove', event => {
+  const drag = officeDrag;
+  if (drag?.pointerId !== event.pointerId || Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 8) return;
+  drag.source.classList.add('drag-source');
+  const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('[data-office-seat]');
+  drag.target?.classList.remove('drag-target');
+  drag.target = target;
+  target?.classList.add('drag-target');
+});
+
+function clearOfficeDrag() {
+  const drag = officeDrag;
+  officeDrag = null;
+  drag.source.classList.remove('drag-source');
+  drag.target?.classList.remove('drag-target');
+  return drag;
+}
+
+app.addEventListener('pointercancel', event => {
+  if (officeDrag?.pointerId === event.pointerId) clearOfficeDrag();
+});
+
+app.addEventListener('pointerup', event => {
+  if (officeDrag?.pointerId !== event.pointerId) return;
+  const drag = clearOfficeDrag();
+  if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 8) return;
+  suppressOfficeClick = true;
+  const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('[data-office-seat]');
+  if (target) moveOfficeFurniture(drag.id, Number(target.dataset.officeSeat));
 });
 
 function renderMissions() {
@@ -593,7 +667,7 @@ function drawMissionDialog() {
         return `<button class="employee-choice ${selected ? 'selected' : ''}" type="button" aria-pressed="${selected}" ${locked ? 'disabled' : `data-character="${c.id}"`} style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${selected && locked ? '本次指定成員' : c.style}</small></span></button>`;
       }).join('')}
     </div>
-    <p class="hint">${selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
+    <p class="hint">${selectedMission.participantBonuses ? `聖誕服裝線索｜派${characterNames(Object.keys(selectedMission.participantBonuses))}參與，可取得出勤成員各自的限定服裝卡。` : selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
     <div class="button-row">
       ${selectedMission.id === 'layout' ? `<button class="button" type="button" data-plan-shop ${canStartMission() ? '' : 'disabled'}>規劃${shopLayouts[(state.day - 1) % shopLayouts.length].title}平面</button>` : ''}
       <button class="button ${selectedMission.id === 'layout' ? 'secondary' : ''}" type="button" data-start-mission ${canStartMission() ? '' : 'disabled'}>${selectedMission.id === 'layout' ? '直接完成勘查' : '開始任務'}</button>
@@ -622,7 +696,8 @@ function completeMission(planSummary = '') {
   const conditionalBonusCards = (mission.specialBonuses || [])
     .filter(entry => matchesExact(selectedCharacters, entry.exact))
     .map(entry => entry.id);
-  const newBonusCards = [...new Set([...(mission.bonus || []), ...conditionalBonusCards])].filter(id => !state.unlocked.includes(id));
+  const participationCards = selectedCharacters.map(id => mission.participantBonuses?.[id]).filter(Boolean);
+  const newBonusCards = [...new Set([...(mission.bonus || []), ...conditionalBonusCards, ...participationCards])].filter(id => !state.unlocked.includes(id));
   state.unlocked.push(...newPersonalCards, ...newBonusCards);
   state.actions -= 1;
   state.completedToday = [...new Set([...state.completedToday, mission.id])];

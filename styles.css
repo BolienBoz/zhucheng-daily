@@ -238,11 +238,10 @@ dialog::backdrop { background: rgba(50,35,40,.55); backdrop-filter: blur(4px); }
 .office-design h2 { margin-top: 14px; }
 .office-plan { max-width: 980px; }
 .office-tools { align-items: center; }
-.office-tools select { min-height: 44px; font: inherit; padding: 6px; border: 1px solid var(--line); border-radius: 8px; background: white; }
 .office-scroll { overflow-x: auto; padding-bottom: 8px; }
 .office-floor {
-  display: grid; grid-template-columns: 1.5rem repeat(10, minmax(58px, 1fr)); gap: 4px;
-  min-width: 650px; padding: 6px; background: #e5d2c5; border: 2px solid #917761; border-radius: 8px;
+  display: grid; grid-template-columns: 1.5rem repeat(11, minmax(58px, 1fr)); gap: 4px;
+  min-width: 730px; padding: 6px; background: #e5d2c5; border: 2px solid #917761; border-radius: 8px;
 }
 .office-axis { align-self: center; text-align: center; font-size: .82rem; font-weight: 700; }
 .office-seat, .office-locked {
@@ -250,10 +249,17 @@ dialog::backdrop { background: rgba(50,35,40,.55); backdrop-filter: blur(4px); }
   border-radius: 5px; font-size: .8rem; line-height: 1.2;
 }
 .office-seat { grid-template-rows: 1fr auto; padding: 3px 1px; border: 1px solid #ccb0a0; background: #f9efe7; cursor: pointer; overflow-wrap: anywhere; }
-.office-seat.has-furniture { background: #fff9ee; }
+.office-seat.has-furniture { background: #fff9ee; cursor: grab; touch-action: none; user-select: none; }
+.office-seat.drag-source { opacity: .55; cursor: grabbing; }
+.office-seat.drag-target { outline: 2px dashed #476e5b; outline-offset: -3px; }
 .office-seat[aria-pressed="true"] { outline: 2px solid var(--pink-dark); outline-offset: -2px; background: #fce2eb; }
 .office-model { width: 37px; aspect-ratio: 1; transform: rotate(var(--angle)); display: grid; place-items: center; }
 .office-model .furniture { width: 100%; }
+.furniture-copier i:first-child { inset: 15% 16%; background: #dedfdf; border-color: #656c70; }
+.furniture-copier i:nth-child(2) { inset: 20% 23% 53%; background: #667d87; border-radius: 2px; }
+.furniture-copier i:nth-child(3) { inset: 55% 28% 25%; background: #fff; border: 1px solid #8b9295; }
+.furniture-low-cabinet i:first-child { inset: 28% 9%; background-color: #bd8e68; }
+.furniture-low-cabinet i:nth-child(2) { inset: 44% 18% 40%; border-left: 4px solid #664b3d; border-right: 4px solid #664b3d; }
 .office-locked { font-weight: 700; border: 1px solid #afbbad; }
 .locked-entry { background: #e0eee1; }
 .locked-balcony { background: #cde5d3; }
