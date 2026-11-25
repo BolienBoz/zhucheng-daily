@@ -126,13 +126,31 @@ const shopLayouts = [
   }
 ];
 let shopDraft = null;
-const officeSeats = [0, 2, 4, 6, 8, 10, 12, 14];
+const officeFixed = {
+  7: ['entry', '入口'], 8: ['entry', '入口'],
+  9: ['balcony', '陽台'], 19: ['balcony', '陽台'], 29: ['balcony', '陽台'],
+  27: ['wc', '廁所']
+};
+const migratedOfficeCells = { 0: 0, 2: 2, 4: 4, 6: 6, 8: 20, 10: 22, 12: 24, 14: 26 };
 const initialSeats = { bolo: 0, husky: 2, toast: 12, tail: 14 };
+const officeFurniture = [
+  ...characters.map(member => ({ id: member.id, name: member.name, model: 'office' })),
+  { id: 'spare', name: '空席', model: 'office', cell: 5 },
+  { id: 'shared', name: '公共桌', model: 'table', cell: 14 },
+  { id: 'tea', name: '茶水間', model: 'counter', cell: 16 },
+  ...[21, 23, 25].map((cell, index) => ({ id: `bookcase${index + 1}`, name: `書櫃 ${index + 1}`, model: 'rack', cell }))
+];
+const propCatalog = [
+  ['snack', '零食盒'], ['mug', '大馬克杯'], ['photo', '午睡照'], ['lamp', '手電筒'],
+  ['toy', '兔子玩偶'], ['blue-cup', '藍色杯'], ['swatch', '配色色票'], ['plant', '迷你植栽'],
+  ['book', '筆記本'], ['helmet', '大安全帽'], ['model', '小屋模型'], ['desk-lamp', '檯燈'],
+  ['blanket', '格紋毛毯'], ['hourglass', '小沙漏'], ['tape', '捲尺'], ['pencils', '彩鉛筆筒']
+];
 const deskItems = {
-  bolo: [['snack', '零食盒'], ['mug', '大馬克杯'], ['photo', '午睡照']],
-  husky: [['lamp', '手電筒'], ['toy', '兔子玩偶'], ['mug', '藍色杯']],
-  toast: [['swatch', '配色色票'], ['plant', '迷你植栽'], ['book', '材料筆記']],
-  tail: [['helmet', '大安全帽'], ['model', '小屋模型'], ['book', '實習筆記']]
+  bolo: ['snack', 'mug', 'photo', 'blanket', 'desk-lamp', 'plant'],
+  husky: ['lamp', 'toy', 'blue-cup', 'hourglass', 'tape', 'desk-lamp'],
+  toast: ['swatch', 'plant', 'book', 'pencils', 'hourglass', 'desk-lamp'],
+  tail: ['helmet', 'model', 'book', 'pencils', 'tape', 'toy']
 };
 let deskOwner = null;
 let officeSelection = 'bolo';
@@ -349,90 +367,141 @@ function handleShopLayoutClick(target) {
   }
 }
 
+function officePositions() {
+  if (state.officePlan) return state.officePlan;
+  return Object.fromEntries(officeFurniture.map(furniture => {
+    const prior = state.officeSeats?.[furniture.id] ?? initialSeats[furniture.id];
+    return [furniture.id, { cell: furniture.cell ?? migratedOfficeCells[prior], angle: 0 }];
+  }));
+}
+
+function deskPositions(owner) {
+  if (state.deskProps?.[owner]) return { ...state.deskProps[owner] };
+  const oldPoints = [[32, 32], [68, 32], [27, 72], [73, 72]];
+  return Object.fromEntries((state.deskSlots?.[owner] || []).flatMap((id, index) => {
+    if (!id || !oldPoints[index]) return [];
+    const [x, y] = oldPoints[index];
+    return [[owner === 'husky' && id === 'mug' ? 'blue-cup' : id, { x, y }]];
+  }));
+}
+
+function propName(id) { return propCatalog.find(([key]) => key === id)[1]; }
+
+function propArtwork(id) {
+  const index = propCatalog.findIndex(([key]) => key === id);
+  return `<span class="desk-art" aria-hidden="true" style="--art-x:${(index % 4) * 100 / 3}%;--art-y:${Math.floor(index / 4) * 100 / 3}%"></span>`;
+}
+
 function renderOfficeLayout(focusSelector) {
-  const seats = state.officeSeats || initialSeats;
+  const left = app.querySelector('.office-scroll')?.scrollLeft || 0;
   if (deskOwner) {
-    const items = deskItems[deskOwner];
-    const slots = state.deskSlots?.[deskOwner] || [];
+    const positions = deskPositions(deskOwner);
     app.innerHTML = `
       <section class="panel shop-layout office-design">
         <button type="button" class="button secondary" data-seat-plan>回事務所座位圖</button>
         <h2>${character(deskOwner).name}的桌面</h2>
-        <p>挑一件小物，放到桌面上的位置。點同一件小物可收回。</p>
-        <div class="shop-options" aria-label="桌面小物">
-          ${items.map(([id, name]) => `<button type="button" data-desk-item="${id}" aria-pressed="${deskSelection === id}">${name}</button>`).join('')}
+        <p>選一件想擺的小物，再點桌面任意位置。點桌上的物件可以再移動或收回。</p>
+        <div class="shop-options desk-inventory" aria-label="桌面小物">
+          ${deskItems[deskOwner].map(id => `<button type="button" data-desk-item="${id}" aria-label="${propName(id)}" title="${propName(id)}" aria-pressed="${deskSelection === id}">${propArtwork(id)}</button>`).join('')}
         </div>
         <div class="desk-scene" role="group" aria-label="${character(deskOwner).name}的透視桌面">
           <div class="desk-wall" aria-hidden="true"></div><div class="desk-surface" aria-hidden="true"></div>
-          ${Array.from({ length: 4 }, (_, index) => {
-            const item = items.find(([id]) => id === slots[index]);
-            return `<button type="button" class="desk-slot" data-desk-slot="${index}" aria-label="桌面位置 ${index + 1}，${item?.[1] || '空位'}">${item ? `<span class="desk-prop prop-${item[0]}" aria-hidden="true"><i></i></span><span>${item[1]}</span>` : '<span>空位</span>'}</button>`;
-          }).join('')}
+          <div class="desk-placement">
+            <button type="button" class="desk-hit-area" data-desk-place aria-label="將選定小物放到桌面。使用鍵盤時放在中央"></button>
+            ${Object.entries(positions).map(([id, point]) => `<button type="button" class="desk-object" data-desk-object="${id}" aria-label="${propName(id)}，選取後可移動或收回" aria-pressed="${deskSelection === id}" style="--x:${point.x}%;--y:${point.y}%;--depth:${Math.round(point.y) + 1}">${propArtwork(id)}</button>`).join('')}
+          </div>
         </div>
+        <div class="shop-options"><button type="button" class="button secondary" data-remove-prop ${positions[deskSelection] ? '' : 'disabled'}>收回選取小物</button></div>
         <p class="office-note" role="status"></p>
       </section>`;
   } else {
+    const positions = officePositions();
+    const selected = officeFurniture.find(item => item.id === officeSelection);
     app.innerHTML = `
-      <section class="panel shop-layout office-design">
-        <h2>築城事務所布置</h2>
-        <p>選一位成員，再點平面圖上的座位。點已有人使用的座位會交換位置。</p>
-        <div class="shop-options" aria-label="選擇要移動的成員">
-          ${characters.map(c => `<button type="button" data-office-member="${c.id}" aria-pressed="${officeSelection === c.id}">${c.name}</button>`).join('')}
+      <section class="panel shop-layout office-design office-plan">
+        <h2>築城事務所座位圖</h2>
+        <p>選家具，再點格子移動。點到另一件家具會互換位置。手機可左右滑動查看整張圖。</p>
+        <div class="shop-options office-tools">
+          <label>配置項目 <select data-office-member>${officeFurniture.map(item => `<option value="${item.id}" ${item.id === officeSelection ? 'selected' : ''}>${item.name}</option>`).join('')}</select></label>
+          <button type="button" class="button secondary" data-rotate-office>旋轉 90°</button>
         </div>
-        <div class="office-floor" role="group" aria-label="事務所座位平面圖">
-          ${Array.from({ length: 15 }, (_, cell) => {
-            if (!officeSeats.includes(cell)) return `<span class="office-aisle">${cell === 7 ? '走道' : cell === 13 ? '入口' : ''}</span>`;
-            const occupant = characters.find(c => seats[c.id] === cell);
-            return `<button type="button" class="office-seat" data-office-seat="${cell}" aria-label="座位 ${officeSeats.indexOf(cell) + 1}，${occupant?.name || '空席'}">${furnitureModel('office')}<span>${occupant?.name || '空席'}</span></button>`;
-          }).join('')}
+        <div class="office-scroll" tabindex="0" aria-label="左右捲動事務所平面圖">
+          <div class="office-floor" role="group" aria-label="事務所 10 欄 3 列座位平面圖">
+            <span></span>${Array.from({ length: 10 }, (_, index) => `<span class="office-axis">${index + 1}</span>`).join('')}
+            ${[0, 1, 2].map(row => `<span class="office-axis">${row + 1}</span>${Array.from({ length: 10 }, (_, col) => {
+              const cell = row * 10 + col;
+              const fixed = officeFixed[cell];
+              const coord = `${col + 1}-${row + 1}`;
+              if (fixed) return `<span class="office-locked locked-${fixed[0]}" aria-label="${coord} ${fixed[1]}，固定">${fixed[1]}</span>`;
+              const item = officeFurniture.find(furniture => positions[furniture.id].cell === cell);
+              return `<button type="button" class="office-seat ${item ? 'has-furniture' : ''}" data-office-seat="${cell}" aria-pressed="${item?.id === officeSelection}" aria-label="${coord} ${item?.name || '可配置'}">${item ? `<span class="office-model" style="--angle:${positions[item.id].angle}deg">${furnitureModel(item.model)}</span><span>${item.name}</span>` : ''}</button>`;
+            }).join('')}`).join('')}
+          </div>
         </div>
-        <div class="button-row"><button class="button" type="button" data-open-desk>布置${character(officeSelection).name}的桌面</button></div>
+        <div class="button-row">${character(selected.id) ? `<button class="button" type="button" data-open-desk>布置${selected.name}的桌面</button>` : ''}</div>
         <p class="office-note" role="status"></p>
       </section>`;
+    app.querySelector('.office-scroll').scrollLeft = left;
   }
   if (focusSelector) app.querySelector(focusSelector)?.focus({ preventScroll: true });
 }
 
-function handleOfficeLayoutClick(target) {
-  const member = target.closest('[data-office-member]');
+function handleOfficeLayoutClick(event) {
+  const target = event.target;
   const seat = target.closest('[data-office-seat]');
-  const item = target.closest('[data-desk-item]');
-  const slot = target.closest('[data-desk-slot]');
-  if (member) {
-    officeSelection = member.dataset.officeMember;
-    renderOfficeLayout(`[data-office-member="${officeSelection}"]`);
-  } else if (seat) {
-    const position = Number(seat.dataset.officeSeat);
-    const seats = { ...initialSeats, ...state.officeSeats };
-    const occupant = characters.find(c => c.id !== officeSelection && seats[c.id] === position);
-    if (occupant) seats[occupant.id] = seats[officeSelection];
-    seats[officeSelection] = position;
-    state.officeSeats = seats;
+  const item = target.closest('[data-desk-item], [data-desk-object]');
+  const placement = target.closest('[data-desk-place]');
+  const rotate = target.closest('[data-rotate-office]');
+  if (seat || rotate) {
+    const positions = officePositions();
+    const current = positions[officeSelection];
+    const cell = seat ? Number(seat.dataset.officeSeat) : current.cell;
+    if (officeFixed[cell]) return;
+    if (seat) {
+      const occupant = officeFurniture.find(item => item.id !== officeSelection && positions[item.id].cell === cell);
+      if (occupant) positions[occupant.id].cell = current.cell;
+      current.cell = cell;
+    } else {
+      current.angle = (current.angle + 90) % 360;
+    }
+    state.officePlan = positions;
     saveState();
-    renderOfficeLayout(`[data-office-seat="${position}"]`);
-    app.querySelector('.office-note').textContent = '座位配置已儲存。';
+    renderOfficeLayout(seat ? `[data-office-seat="${cell}"]` : '[data-rotate-office]');
+    app.querySelector('.office-note').textContent = '平面配置已儲存。';
   } else if (target.closest('[data-open-desk]')) {
     deskOwner = officeSelection;
-    deskSelection = deskItems[deskOwner][0][0];
+    deskSelection = deskItems[deskOwner][0];
     renderOfficeLayout('[data-seat-plan]');
   } else if (target.closest('[data-seat-plan]')) {
     deskOwner = null;
     renderOfficeLayout('[data-open-desk]');
   } else if (item) {
-    deskSelection = item.dataset.deskItem;
-    renderOfficeLayout(`[data-desk-item="${deskSelection}"]`);
-  } else if (slot) {
-    const position = Number(slot.dataset.deskSlot);
-    const slots = Array.from({ length: 4 }, (_, index) => state.deskSlots?.[deskOwner]?.[index] || null);
-    const previous = slots.indexOf(deskSelection);
-    if (previous !== -1) slots[previous] = previous === position ? null : slots[position];
-    if (previous !== position) slots[position] = deskSelection;
-    state.deskSlots = { ...state.deskSlots, [deskOwner]: slots };
+    deskSelection = item.dataset.deskItem || item.dataset.deskObject;
+    const selector = item.dataset.deskItem ? 'data-desk-item' : 'data-desk-object';
+    renderOfficeLayout(`[${selector}="${deskSelection}"]`);
+  } else if (placement || target.closest('[data-remove-prop]')) {
+    const positions = deskPositions(deskOwner);
+    if (placement) {
+      const bounds = placement.getBoundingClientRect();
+      const y = event.detail ? Math.max(12, Math.min(92, (event.clientY - bounds.top) / bounds.height * 100)) : 50;
+      const edge = 10 + (100 - y) * .12;
+      const x = event.detail ? Math.max(edge, Math.min(100 - edge, (event.clientX - bounds.left) / bounds.width * 100)) : 50;
+      positions[deskSelection] = { x: Number(x.toFixed(1)), y: Number(y.toFixed(1)) };
+    } else {
+      delete positions[deskSelection];
+    }
+    state.deskProps = { ...state.deskProps, [deskOwner]: positions };
     saveState();
-    renderOfficeLayout(`[data-desk-slot="${position}"]`);
+    renderOfficeLayout(placement ? '[data-desk-place]' : `[data-desk-item="${deskSelection}"]`);
     app.querySelector('.office-note').textContent = '桌面布置已儲存。';
   }
 }
+
+app.addEventListener('change', event => {
+  if (!event.target.matches('[data-office-member]')) return;
+  officeSelection = event.target.value;
+  renderOfficeLayout('[data-office-member]');
+});
 
 function renderMissions() {
   const start = ((state.day - 1) * 3) % missions.length;
@@ -589,7 +658,7 @@ document.addEventListener('click', event => {
   const view = event.target.closest('[data-view]')?.dataset.view;
   if (view) { shopDraft = null; state.view = view; saveState(); render(); return; }
   if (shopDraft) { handleShopLayoutClick(event.target); return; }
-  if (state.view === 'layout') { handleOfficeLayoutClick(event.target); return; }
+  if (state.view === 'layout') { handleOfficeLayoutClick(event); return; }
   const missionId = event.target.closest('[data-mission]')?.dataset.mission;
   if (missionId) { openMission(missionId); return; }
   const characterId = event.target.closest('[data-character]')?.dataset.character;

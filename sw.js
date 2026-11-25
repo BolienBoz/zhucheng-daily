@@ -1,9 +1,10 @@
-const CACHE = 'zhuyu-collection-v22';
+const CACHE = 'zhuyu-collection-v23';
 const ASSETS = [
   './',
   './index.html',
-  './styles.css?v=22',
-  './app.js?v=22',
+  './styles.css?v=23',
+  './app.js?v=23',
+  './assets/desk-props-v23.png',
   './manifest.webmanifest',
   './assets/icon-180.png',
   './assets/icon-192.png',
