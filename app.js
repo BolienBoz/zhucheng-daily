@@ -89,6 +89,19 @@ let state = loadState();
 let selectedMission = null;
 let selectedCharacters = [];
 let deferredInstallPrompt = null;
+const shopLayouts = [
+  { title: '咖啡店', feature: '雙人座', featureMark: '☕', extra: '餐具架', extraMark: '▤',
+    rule: '雙人座要放在最上排的窗邊。', validFeature: cell => cell < 5 },
+  { title: '花店', feature: '花台', featureMark: '❀', extra: '花器架', extraMark: '▤',
+    rule: '花台要靠右側牆，走道要能走到花台旁。', validFeature: cell => cell % 5 === 4 },
+  { title: '甜點店', feature: '甜點櫃', featureMark: '♢', extra: '包裝架', extraMark: '▤',
+    rule: '甜點櫃要緊鄰櫃台，走道也要能走到甜點櫃旁。', validFeature: (cell, counter) => layoutNeighbors(cell).includes(counter) }
+];
+const layoutEntry = 22;
+let shopIndex = 0;
+let layoutPieces = {};
+let selectedPiece = 'counter';
+let layoutFeedback = '';
 
 const app = document.querySelector('#app');
 const missionDialog = document.querySelector('#mission-dialog');
@@ -125,6 +138,7 @@ function render() {
   updateChrome();
   if (state.view === 'missions') renderMissions();
   else if (state.view === 'album') renderAlbum();
+  else if (state.view === 'layout') renderShopLayout();
   else renderOffice();
   app.focus({ preventScroll: true });
 }
@@ -140,6 +154,7 @@ function renderOffice() {
         <div class="button-row">
           <button class="button" type="button" data-view="missions">查看今天的任務</button>
           <button class="button secondary" type="button" data-view="album">翻開圖鑑</button>
+          <button class="button secondary" type="button" data-view="layout">玩桌上店鋪配置</button>
           ${standalone ? '' : '<button class="button secondary install-button" type="button" data-install-app>安裝到手機主畫面</button>'}
         </div>
         ${standalone ? '' : '<p class="install-note">Android：瀏覽器選單選擇「安裝應用程式」・iPhone：Safari 分享後選擇「加入主畫面」。安裝完成後可離線遊玩。</p>'}
@@ -153,6 +168,114 @@ function renderOffice() {
     <section class="character-grid">
       ${characters.map(c => `<article class="character-card"><div class="avatar" style="--avatar:${c.color}"><img src="${c.avatar}" alt="${c.name}頭像"></div><span class="tag">${c.style}</span><h3>${c.name}</h3><p>「${c.line}」</p></article>`).join('')}
     </section>`;
+}
+
+function layoutNeighbors(cell) {
+  const neighbors = [];
+  if (cell >= 5) neighbors.push(cell - 5);
+  if (cell < 20) neighbors.push(cell + 5);
+  if (cell % 5 > 0) neighbors.push(cell - 1);
+  if (cell % 5 < 4) neighbors.push(cell + 1);
+  return neighbors;
+}
+
+function checkShopLayout(shop, pieces) {
+  if (Object.keys(pieces).length < 3) return '請先放好三件家具。';
+  if (!shop.validFeature(pieces.feature, pieces.counter)) return shop.rule;
+
+  const blocked = new Set(Object.values(pieces));
+  const reachable = new Set([layoutEntry]);
+  const queue = [layoutEntry];
+  for (const cell of queue) {
+    for (const neighbor of layoutNeighbors(cell)) {
+      if (blocked.has(neighbor) || reachable.has(neighbor)) continue;
+      reachable.add(neighbor);
+      queue.push(neighbor);
+    }
+  }
+  for (const [id, label] of [['counter', '櫃台'], ['feature', shop.feature]]) {
+    if (!layoutNeighbors(pieces[id]).some(cell => reachable.has(cell))) {
+      return `從入口走不到${label}旁，試著留一條空格走道。`;
+    }
+  }
+  return `配置完成！入口到櫃台和${shop.feature}的走道都暢通。`;
+}
+
+function renderShopLayout(focusSelector) {
+  const shop = shopLayouts[shopIndex];
+  const pieces = [
+    { id: 'counter', name: '櫃台', mark: '▰' },
+    { id: 'feature', name: shop.feature, mark: shop.featureMark },
+    { id: 'extra', name: shop.extra, mark: shop.extraMark }
+  ];
+  app.innerHTML = `
+    <section class="panel shop-layout">
+      <h2>桌上店鋪配置</h2>
+      <div class="shop-options" aria-label="選擇店型">
+        ${shopLayouts.map((item, index) => `<button type="button" data-shop="${index}" aria-pressed="${index === shopIndex}">${item.title}</button>`).join('')}
+      </div>
+      <p>點家具再點格子。再點一次原位可收回家具，點別的空格可移動。</p>
+      <p class="shop-rule">從入口要能沿空格走到櫃台和${shop.feature}旁。${shop.rule}</p>
+      <div class="shop-options" aria-label="選擇家具">
+        ${pieces.map(piece => `<button type="button" data-piece="${piece.id}" aria-pressed="${selectedPiece === piece.id}">${piece.mark} ${piece.name}</button>`).join('')}
+      </div>
+      <div class="shop-window">窗邊</div>
+      <div class="shop-grid" role="group" aria-label="${shop.title}平面圖">
+        ${Array.from({ length: 25 }, (_, cell) => {
+          const piece = pieces.find(item => layoutPieces[item.id] === cell);
+          const entry = cell === layoutEntry;
+          const label = entry ? '入口' : piece?.name || '空格';
+          return `<button type="button" class="shop-cell ${piece ? 'occupied' : ''} ${entry ? 'entry' : ''}" data-shop-cell="${cell}" aria-label="第 ${Math.floor(cell / 5) + 1} 排第 ${cell % 5 + 1} 格，${label}" ${entry ? 'disabled' : ''}>${piece ? piece.mark : entry ? '入口' : ''}</button>`;
+        }).join('')}
+      </div>
+      <div class="shop-options">
+        <button type="button" class="button" data-check-layout>檢查配置</button>
+        <button type="button" class="button secondary" data-reset-layout>重新布置</button>
+      </div>
+      <p class="shop-feedback" role="status"></p>
+    </section>`;
+  if (layoutFeedback) app.querySelector('.shop-feedback').textContent = layoutFeedback;
+  if (focusSelector) app.querySelector(focusSelector)?.focus({ preventScroll: true });
+}
+
+function handleShopLayoutClick(target) {
+  const shop = target.closest('[data-shop]');
+  const piece = target.closest('[data-piece]');
+  const tile = target.closest('[data-shop-cell]');
+  if (shop) {
+    const index = Number(shop.dataset.shop);
+    if (shopIndex === index) return;
+    shopIndex = index;
+    layoutPieces = {};
+    selectedPiece = 'counter';
+    layoutFeedback = '';
+    renderShopLayout(`[data-shop="${index}"]`);
+  } else if (piece) {
+    selectedPiece = piece.dataset.piece;
+    renderShopLayout(`[data-piece="${selectedPiece}"]`);
+  } else if (tile) {
+    const cell = Number(tile.dataset.shopCell);
+    if (cell === layoutEntry) return;
+    const occupant = Object.keys(layoutPieces).find(id => layoutPieces[id] === cell);
+    if (occupant === selectedPiece) {
+      delete layoutPieces[selectedPiece];
+    } else if (occupant) {
+      app.querySelector('.shop-feedback').textContent = '這格已有家具，請先移開，或選擇另一格。';
+      return;
+    } else {
+      layoutPieces[selectedPiece] = cell;
+    }
+    layoutFeedback = '';
+    renderShopLayout(`[data-shop-cell="${cell}"]`);
+  } else if (target.closest('[data-check-layout]')) {
+    layoutFeedback = checkShopLayout(shopLayouts[shopIndex], layoutPieces);
+    app.querySelector('.shop-feedback').textContent = layoutFeedback;
+  } else if (target.closest('[data-reset-layout]')) {
+    layoutPieces = {};
+    selectedPiece = 'counter';
+    layoutFeedback = '';
+    renderShopLayout('[data-reset-layout]');
+  }
 }
 
 function renderMissions() {
@@ -235,14 +358,14 @@ function openMission(id) {
 function drawMissionDialog() {
   document.querySelector('#mission-dialog-content').innerHTML = `
     <p class="eyebrow">${selectedMission.owner}・${selectedMission.kind}</p>
-    <h2>${selectedMission.title}</h2>
+    <h2 id="mission-title">${selectedMission.title}</h2>
     <p>${selectedMission.desc}</p>
     <h3>${selectedMission.requiredCharacters ? '本任務指定參與成員' : '選擇一至兩位參與成員'}</h3>
     <div class="employee-picker">
       ${characters.map(c => {
         const locked = !!selectedMission.requiredCharacters;
         const selected = selectedCharacters.includes(c.id);
-        return `<button class="employee-choice ${selected ? 'selected' : ''}" type="button" ${locked ? 'disabled' : `data-character="${c.id}"`} style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${selected && locked ? '本次指定成員' : c.style}</small></span></button>`;
+        return `<button class="employee-choice ${selected ? 'selected' : ''}" type="button" aria-pressed="${selected}" ${locked ? 'disabled' : `data-character="${c.id}"`} style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${selected && locked ? '本次指定成員' : c.style}</small></span></button>`;
       }).join('')}
     </div>
     <p class="hint">${selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
@@ -255,6 +378,7 @@ function toggleCharacter(id) {
   else if (selectedCharacters.length < 2) selectedCharacters.push(id);
   else showToast('一次最多選擇兩位成員');
   drawMissionDialog();
+  missionDialog.querySelector(`[data-character="${id}"]`)?.focus({ preventScroll: true });
 }
 
 function completeMission() {
@@ -305,6 +429,7 @@ async function installApp() {
 document.addEventListener('click', event => {
   const view = event.target.closest('[data-view]')?.dataset.view;
   if (view) { state.view = view; saveState(); render(); return; }
+  if (state.view === 'layout') { handleShopLayoutClick(event.target); return; }
   const missionId = event.target.closest('[data-mission]')?.dataset.mission;
   if (missionId) { openMission(missionId); return; }
   const characterId = event.target.closest('[data-character]')?.dataset.character;
