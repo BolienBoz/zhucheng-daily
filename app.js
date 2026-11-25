@@ -23,7 +23,7 @@ const collectibles = [
   { id: 'finish_picnic', group: 'activity', type: '活動', title: '完工後的野餐', hint: '完成「完工小小慶功」任務', image: 'assets/activity-finish-picnic.jpg', text: '店鋪順利完工，大家帶著點心到附近公園享受難得的悠閒午後。' },
   { id: 'typhoon_prep', group: 'activity', type: '突發', title: '颱風前的防護作戰', hint: '完成「颱風前安全確認」任務', image: 'assets/activity-typhoon-prep.jpg', text: '模型移到安全位置、窗戶固定完成，材料樣本也全部包裝妥當。' },
   { id: 'night_lighting', group: 'activity', type: '工作', title: '夜間燈光測試', hint: '完成「店鋪夜間點燈」任務', image: 'assets/activity-night-lighting.jpg', text: '暖光、間接照明與招牌亮度逐一確認，完工空間在夜裡有了不同表情。' },
-  { id: 'model_supplies', group: 'activity', type: '外出', title: '模型材料採買隊', hint: '完成「補齊模型材料」任務', image: 'assets/activity-model-supplies.jpg', text: '板材、膠水、色紙和模型樹都買齊了，只是小尾巴差點被木條淹沒。' },
+  { id: 'model_supplies', group: 'activity', type: '外出', title: '模型材料採買隊', hint: '完成「補齊模型材料」任務', image: 'assets/activity-model-supplies.jpg', text: '波蘿胖胖推著滿滿的採買車穿過走道，還有一根忘了收好的木條一路跟在後面。' },
   { id: 'afternoon_tea', group: 'activity', type: '日常', title: '事務所下午茶', hint: '完成「今天準時休息」任務', image: 'assets/activity-afternoon-tea.jpg', text: '忙完一個段落，大家用茶點和夕陽替今天留下一小段空白。' },
   { id: 'power_outage', group: 'activity', type: '突發', title: '停電中的應變小隊', hint: '完成「突然停電了」任務', image: 'assets/activity-power-outage.jpg', text: '緊急燈、手電筒與設備檢查清單全部出動，黑暗中也能維持秩序。' },
   { id: 'plant_shopping', group: 'activity', type: '外出', title: '店鋪植栽選購', hint: '完成「挑選室內植栽」任務', image: 'assets/activity-plant-shopping.jpg', text: '尺寸、葉形與花盆顏色都要配合空間，小尾巴則負責測試推車。' },
@@ -39,6 +39,14 @@ const collectibles = [
   ,{ id: 'card_husky_supervisor', group: 'character', type: '服裝卡', title: '哈士奇姑姑羅・工地主任', hint: '完成「圖面與模型大整理」任務', image: 'assets/costume-husky-supervisor.jpg', text: '安全帽、反光背心與確認板到齊，現場問題一個也逃不過。' }
   ,{ id: 'card_toast_curator', group: 'character', type: '服裝卡', title: '香蕉吐司・材料選品', hint: '完成「材料市集尋寶」任務', image: 'assets/costume-toast-curator.jpg', text: '圍裙口袋裝滿色票，今天也要找出最剛好的那一種白。' }
   ,{ id: 'card_tail_presentation', group: 'character', type: '服裝卡', title: '小尾巴・正式提案', hint: '完成「完工小小慶功」任務', image: 'assets/costume-tail-presentation.jpg', text: '穿上稍微大了一點的西裝，第一次正式報告也要努力完成。' }
+  ,{ id: 'archive_hunt', group: 'activity', type: '工作', title: '檔案室的舊圖紙尋寶', hint: '完成「找回舊案圖紙」任務', image: 'assets/activity-archive-hunt.jpg', text: '高高低低的圖櫃一起打開，沉睡許久的舊圖紙終於重見天日。' }
+  ,{ id: 'woodshop_sample', group: 'activity', type: '工作', title: '木工廠的層板試作', hint: '完成「試作展示層板」任務', image: 'assets/activity-woodshop.jpg', text: '量角、打磨、選色與清理各自進行，第一組展示層板順利完成。' }
+  ,{ id: 'card_bolo_carpenter', group: 'character', type: '服裝卡', title: '波蘿胖胖・木工學徒', hint: '讓波蘿胖胖單獨完成「試作展示層板」', image: 'assets/costume-bolo-carpenter.jpg', text: '換上耐磨圍裙，慢慢打磨每一處木角，也把木屑整理得乾乾淨淨。' }
+  ,{ id: 'card_husky_tail_archive', group: 'character', type: '搭檔卡', title: '檔案室默契搭檔', hint: '只派姑姑羅與小尾巴完成「找回舊案圖紙」', image: 'assets/pair-husky-tail-archive.jpg', text: '一個負責高處找圖，一個負責穩穩接住，意外成為效率最好的檔案室搭檔。' }
+  ,{ id: 'birthday_bolo', group: 'character', type: '生日卡', title: '波蘿胖胖・生日主角', hint: '讓波蘿胖胖單獨完成「波蘿胖胖生日早餐」', image: 'assets/birthday-bolo.jpg', text: '鬆餅、餅乾和溫暖晨光都準備好了，今天可以理直氣壯地先吃再工作。' }
+  ,{ id: 'birthday_husky', group: 'character', type: '生日卡', title: '姑姑羅・生日惡作劇', hint: '讓姑姑羅單獨完成「姑姑羅生日驚喜」', image: 'assets/birthday-husky.jpg', text: '看似乖乖等著吹蠟燭，其實早已準備好下一秒彈出的彩帶。' }
+  ,{ id: 'birthday_toast', group: 'character', type: '生日卡', title: '香蕉吐司・生日配色', hint: '讓香蕉吐司單獨完成「香蕉吐司生日配色」', image: 'assets/birthday-toast.jpg', text: '連生日蛋糕的緞帶也要仔細比較，最後選出了最剛好的粉紅與橄欖綠。' }
+  ,{ id: 'birthday_tail', group: 'character', type: '生日卡', title: '小尾巴・第一次許願', hint: '讓小尾巴單獨完成「小尾巴生日許願」', image: 'assets/birthday-tail.jpg', text: '小小的蠟燭照亮窗邊，第一次在事務所許下了不告訴任何人的願望。' }
 ];
 
 const missions = [
@@ -64,9 +72,15 @@ const missions = [
   ,{ id: 'plants', owner: '羽田', kind: '採購', title: '挑選室內植栽', desc: '依照店鋪採光、動線與色彩，到溫室挑選合適植栽。', reward: ['plant_shopping'], prompt: '植栽與花盆都選好了，完工空間因此多了一份舒服的綠意。' }
   ,{ id: 'leak', owner: '木亦', kind: '現況紀錄', title: '記錄漏水位置', desc: '保護模型與材料，觀察並標記每一處漏水的位置。', reward: ['roof_leak'], prompt: '漏水時間、位置與影響範圍都記錄完成，後續處理有了清楚依據。' }
   ,{ id: 'photoshoot', owner: '木亦', kind: '成果紀錄', title: '拍攝完工空間', desc: '整理場景、調整模型與道具，完成正式作品攝影。', reward: ['photo_day'], prompt: '光線與構圖確認完成，這次的設計成果被好好保存下來。' }
+  ,{ id: 'archive', owner: '木亦', kind: '檔案整理', title: '找回舊案圖紙', desc: '到檔案室翻找舊案資料，重新整理圖櫃與圖紙標籤。', reward: ['archive_hunt'], specialBonuses: [{ id: 'card_husky_tail_archive', exact: ['husky', 'tail'] }], prompt: '舊圖紙順利找回，也重新整理出一條清楚的查找路線。' }
+  ,{ id: 'woodshop', owner: '羽田', kind: '樣品試作', title: '試作展示層板', desc: '到木工廠確認尺寸、接合方式與木材塗裝效果。', reward: ['woodshop_sample'], specialBonuses: [{ id: 'card_bolo_carpenter', exact: ['bolo'] }], prompt: '層板的尺寸、接合與表面處理都完成了第一輪確認。' }
+  ,{ id: 'birthday_bolo_mission', owner: '事務所', kind: '限定生日', title: '波蘿胖胖生日早餐', desc: '讓今天的生日主角先好好享用一份鬆餅早餐。', reward: ['birthday_bolo'], requiredCharacters: ['bolo'], prompt: '早餐和禮物都準備好了，波蘿胖胖度過了心滿意足的早晨。' }
+  ,{ id: 'birthday_husky_mission', owner: '事務所', kind: '限定生日', title: '姑姑羅生日驚喜', desc: '小心準備彩帶與蛋糕，也要提防生日主角先一步發現機關。', reward: ['birthday_husky'], requiredCharacters: ['husky'], prompt: '姑姑羅不只發現了驚喜，還偷偷把彩帶機關改得更有趣。' }
+  ,{ id: 'birthday_toast_mission', owner: '事務所', kind: '限定生日', title: '香蕉吐司生日配色', desc: '挑出蛋糕、緞帶與裝飾最協調的一組生日配色。', reward: ['birthday_toast'], requiredCharacters: ['toast'], prompt: '每一塊色票都比較完成，生日角落呈現出最舒服的配色。' }
+  ,{ id: 'birthday_tail_mission', owner: '事務所', kind: '限定生日', title: '小尾巴生日許願', desc: '在夕陽落下後，替第一次在事務所過生日的小尾巴點亮蠟燭。', reward: ['birthday_tail'], requiredCharacters: ['tail'], prompt: '小尾巴閉上眼睛許了願，也把這個傍晚好好記了下來。' }
 ];
 
-const NEW_MISSION_IDS = new Set(['typhoon', 'lighting', 'supplies', 'tea', 'outage', 'plants', 'leak', 'photoshoot']);
+const NEW_MISSION_IDS = new Set(['archive', 'woodshop', 'birthday_bolo_mission', 'birthday_husky_mission', 'birthday_toast_mission', 'birthday_tail_mission']);
 
 const MAX_DAILY_ACTIONS = 5;
 const RULES_VERSION = 2;
@@ -135,7 +149,7 @@ function renderOffice() {
         <div class="speech alt"><strong>羽田｜額外任務</strong><p>「這裡有一個很快的送件，不會花太久……應該。」</p></div>
       </aside>
     </section>
-    <div class="section-head"><div><p class="eyebrow">OUR TEAM</p><h2>事務所四人組</h2></div><p>所有人都能參與任何任務</p></div>
+    <div class="section-head"><div><p class="eyebrow">OUR TEAM</p><h2>事務所四人組</h2></div><p>多數任務自由組隊，限定收藏另有指定條件</p></div>
     <section class="character-grid">
       ${characters.map(c => `<article class="character-card"><div class="avatar" style="--avatar:${c.color}"><img src="${c.avatar}" alt="${c.name}頭像"></div><span class="tag">${c.style}</span><h3>${c.name}</h3><p>「${c.line}」</p></article>`).join('')}
     </section>`;
@@ -158,11 +172,16 @@ function renderMissions() {
     <section class="mission-grid">
       ${dailyMissions.map(m => {
         const doneToday = state.completedToday.includes(m.id);
-        return `<article class="mission-card ${doneToday ? 'completed' : ''}"><div class="mission-tags"><span class="tag">${m.owner}・${m.kind}</span>${NEW_MISSION_IDS.has(m.id) ? '<span class="tag new-task">新任務</span>' : ''}</div><h3>${m.title}</h3><p>${m.desc}</p><div class="mini-meta"><span>${doneToday ? '今日已完成' : '任選 1～2 人'}</span><span>${m.reward.some(id => !state.unlocked.includes(id)) ? '有未收集回憶' : '可能取得回憶貼紙'}</span></div><button class="button" type="button" data-mission="${m.id}" ${state.actions && !doneToday ? '' : 'disabled'}>${doneToday ? '今日已派出' : '選擇這個任務'}</button></article>`;
+        return `<article class="mission-card ${doneToday ? 'completed' : ''}"><div class="mission-tags"><span class="tag">${m.owner}・${m.kind}</span>${NEW_MISSION_IDS.has(m.id) ? '<span class="tag new-task">新任務</span>' : ''}</div><h3>${m.title}</h3><p>${m.desc}</p><div class="mini-meta"><span>${doneToday ? '今日已完成' : missionTeamLabel(m)}</span><span>${m.reward.some(id => !state.unlocked.includes(id)) ? '有未收集回憶' : '可能取得回憶貼紙'}</span></div><button class="button" type="button" data-mission="${m.id}" ${state.actions && !doneToday ? '' : 'disabled'}>${doneToday ? '今日已派出' : '選擇這個任務'}</button></article>`;
       }).join('')}
     </section>
-    ${state.actions === 0 ? `<div class="empty"><h3>今天辛苦了</h3><p>結束今天，明天會刷新三次行動。</p><button class="button" type="button" data-next-day>進入第 ${state.day + 1} 天</button></div>` : ''}`;
+    ${state.actions === 0 ? `<div class="empty"><h3>今天辛苦了</h3><p>結束今天，明天會刷新五次行動。</p><button class="button" type="button" data-next-day>進入第 ${state.day + 1} 天</button></div>` : ''}`;
 }
+
+function characterNames(ids) { return ids.map(id => character(id).name).join('＋'); }
+function matchesExact(actual, expected) { return actual.length === expected.length && expected.every(id => actual.includes(id)); }
+function missionTeamLabel(mission) { return mission.requiredCharacters ? `指定：${characterNames(mission.requiredCharacters)}` : '任選 1～2 人'; }
+function canStartMission() { return selectedMission?.requiredCharacters ? matchesExact(selectedCharacters, selectedMission.requiredCharacters) : selectedCharacters.length >= 1 && selectedCharacters.length <= 2; }
 
 function renderAlbum() {
   const validUnlocked = collectibles.filter(item => state.unlocked.includes(item.id));
@@ -208,7 +227,7 @@ function openCollectible(id) {
 function openMission(id) {
   selectedMission = missions.find(m => m.id === id);
   if (!selectedMission || state.completedToday.includes(id) || state.actions <= 0) return;
-  selectedCharacters = [];
+  selectedCharacters = selectedMission.requiredCharacters ? [...selectedMission.requiredCharacters] : [];
   drawMissionDialog();
   missionDialog.showModal();
 }
@@ -218,15 +237,20 @@ function drawMissionDialog() {
     <p class="eyebrow">${selectedMission.owner}・${selectedMission.kind}</p>
     <h2>${selectedMission.title}</h2>
     <p>${selectedMission.desc}</p>
-    <h3>選擇一至兩位參與成員</h3>
+    <h3>${selectedMission.requiredCharacters ? '本任務指定參與成員' : '選擇一至兩位參與成員'}</h3>
     <div class="employee-picker">
-      ${characters.map(c => `<button class="employee-choice ${selectedCharacters.includes(c.id) ? 'selected' : ''}" type="button" data-character="${c.id}" style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${c.style}</small></span></button>`).join('')}
+      ${characters.map(c => {
+        const locked = !!selectedMission.requiredCharacters;
+        const selected = selectedCharacters.includes(c.id);
+        return `<button class="employee-choice ${selected ? 'selected' : ''}" type="button" ${locked ? 'disabled' : `data-character="${c.id}"`} style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${selected && locked ? '本次指定成員' : c.style}</small></span></button>`;
+      }).join('')}
     </div>
-    <p class="hint">沒有最佳人選。不同組合會留下不同對話與收藏線索。</p>
-    <div class="button-row"><button class="button" type="button" data-start-mission ${selectedCharacters.length ? '' : 'disabled'}>開始任務</button></div>`;
+    <p class="hint">${selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
+    <div class="button-row"><button class="button" type="button" data-start-mission ${canStartMission() ? '' : 'disabled'}>開始任務</button></div>`;
 }
 
 function toggleCharacter(id) {
+  if (selectedMission.requiredCharacters) return;
   if (selectedCharacters.includes(id)) selectedCharacters = selectedCharacters.filter(item => item !== id);
   else if (selectedCharacters.length < 2) selectedCharacters.push(id);
   else showToast('一次最多選擇兩位成員');
@@ -235,6 +259,7 @@ function toggleCharacter(id) {
 
 function completeMission() {
   const mission = selectedMission;
+  if (!mission || !canStartMission()) return;
   const available = mission.reward.filter(id => !state.unlocked.includes(id));
   let rewardId = available[0] || mission.reward[Math.floor(Math.random() * mission.reward.length)];
   const isNew = !state.unlocked.includes(rewardId);
@@ -242,7 +267,10 @@ function completeMission() {
   const newPersonalCards = selectedCharacters
     .map(id => character(id).cardId)
     .filter(id => !state.unlocked.includes(id));
-  const newBonusCards = (mission.bonus || []).filter(id => !state.unlocked.includes(id));
+  const conditionalBonusCards = (mission.specialBonuses || [])
+    .filter(entry => matchesExact(selectedCharacters, entry.exact))
+    .map(entry => entry.id);
+  const newBonusCards = [...new Set([...(mission.bonus || []), ...conditionalBonusCards])].filter(id => !state.unlocked.includes(id));
   state.unlocked.push(...newPersonalCards, ...newBonusCards);
   state.actions -= 1;
   state.completedToday = [...new Set([...state.completedToday, mission.id])];
@@ -255,7 +283,7 @@ function completeMission() {
     <p class="eyebrow">${isNew ? 'NEW COLLECTION' : 'MEMORY STICKER'}</p>
     <h2>${isNew ? reward.title : '獲得回憶貼紙'}</h2>
     <p>${names}完成了「${mission.title}」。${mission.prompt}</p>
-    <p>${isNew ? reward.text : `「${reward.title}」已經收集過，這次轉成一枚回憶貼紙。`}${newPersonalCards.length ? ` 同時新增 ${newPersonalCards.length} 張個人圖鑑卡。` : ''}${newBonusCards.length ? ` 並取得限定服裝卡「${newBonusCards.map(id => byId(id).title).join('、')}」。` : ''}</p>
+    <p>${isNew ? reward.text : `「${reward.title}」已經收集過，這次轉成一枚回憶貼紙。`}${newPersonalCards.length ? ` 同時新增 ${newPersonalCards.length} 張個人圖鑑卡。` : ''}${newBonusCards.length ? ` 並取得條件收藏卡「${newBonusCards.map(id => byId(id).title).join('、')}」。` : ''}</p>
     <button class="button" type="button" data-finish-result>${state.actions ? '繼續今天' : '查看今日結束'}</button>`;
   resultDialog.showModal();
 }
