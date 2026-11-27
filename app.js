@@ -57,6 +57,78 @@ const collectibles = [
   ,{ id: 'christmas_husky', group: 'character', type: '服裝卡', title: '姑姑羅・銀鈴小精靈', hint: '派姑姑羅參與「布置冬日櫥窗」', image: 'assets/costume-husky-christmas.jpg', text: '銀鈴叮一聲，藏在背後的緞帶就差點露餡。' }
   ,{ id: 'christmas_toast', group: 'character', type: '服裝卡', title: '香蕉吐司・冬青緞帶', hint: '派香蕉吐司參與「準備聖誕交換禮物」', image: 'assets/costume-toast-christmas-v2.jpg', text: '冬青綠背心配上格紋蝴蝶結，禮物的緞帶當然也要挑剛好的顏色。' }
   ,{ id: 'christmas_tail', group: 'character', type: '服裝卡', title: '小尾巴・捧星小斗篷', hint: '派小尾巴參與「布置冬日櫥窗」', image: 'assets/costume-tail-christmas.jpg', text: '披上小斗篷，踮著腳想把最亮的一顆星星掛上去。' }
+  ,{"id":"series_site_1","group":"activity","type":"活動","series":"工地觀察","title":"門框差一點","hint":"完成第 1 次「工地觀察巡查」","image":"assets/series-site-1.jpg","text":"波蘿胖胖蹲著量門框，發現尺帶卡在鞋底下。"}
+  ,{"id":"series_site_2","group":"activity","type":"活動","series":"工地觀察","title":"窗台的水平線","hint":"完成第 2 次「工地觀察巡查」","image":"assets/series-site-2.jpg","text":"姑姑羅看著水平尺上的氣泡，等它終於停在正中央。"}
+  ,{"id":"series_site_3","group":"activity","type":"活動","series":"工地觀察","title":"樓梯草圖","hint":"完成第 3 次「工地觀察巡查」","image":"assets/series-site-3.jpg","text":"香蕉吐司舉起樓梯草圖，讓每一階都能看清楚。"}
+  ,{"id":"series_site_4","group":"activity","type":"活動","series":"工地觀察","title":"裸磚摸起來","hint":"完成第 4 次「工地觀察巡查」","image":"assets/series-site-4.jpg","text":"小尾巴伸手摸了摸牆磚，才知道粗面是什麼感覺。"}
+  ,{"id":"series_site_5","group":"activity","type":"活動","series":"工地觀察","title":"午後採光筆記","hint":"完成第 5 次「工地觀察巡查」","image":"assets/series-site-5.jpg","text":"波蘿胖胖沿著窗邊，把陽光的位置畫成一串記號。"}
+  ,{"id":"series_site_6","group":"activity","type":"活動","series":"工地觀察","title":"柱距的第二次確認","hint":"完成第 6 次「工地觀察巡查」","image":"assets/series-site-6.jpg","text":"姑姑羅蹲下重新對齊尺頭，這次等同事也看清楚。"}
+  ,{"id":"series_site_7","group":"activity","type":"活動","series":"工地觀察","title":"樓梯口的手勢","hint":"完成第 7 次「工地觀察巡查」","image":"assets/series-site-7.jpg","text":"小尾巴站在階梯旁，努力把指路的手勢比得夠大。"}
+  ,{"id":"series_site_8","group":"activity","type":"活動","series":"工地觀察","title":"地坪樣本比一比","hint":"完成第 8 次「工地觀察巡查」","image":"assets/series-site-8.jpg","text":"香蕉吐司把樣本貼近地面，找出最接近舊地板的色調。"}
+  ,{"id":"series_site_9","group":"activity","type":"活動","series":"工地觀察","title":"側門巡查筆記","hint":"完成第 9 次「工地觀察巡查」","image":"assets/series-site-9.jpg","text":"四位把各自記到的東西攤開，補齊了彼此漏掉的角落。"}
+  ,{"id":"series_materials_1","group":"activity","type":"活動","series":"材料標本","title":"粗面磁磚","hint":"完成第 1 次「整理材料標本」","image":"assets/series-materials-1.jpg","text":"香蕉吐司用指尖試摸磁磚，記住那點細細的阻力。"}
+  ,{"id":"series_materials_2","group":"activity","type":"活動","series":"材料標本","title":"軟木抱滿懷","hint":"完成第 2 次「整理材料標本」","image":"assets/series-materials-2.jpg","text":"小尾巴抱著整疊軟木，這次的材料意外地輕。"}
+  ,{"id":"series_materials_3","group":"activity","type":"活動","series":"材料標本","title":"木紋的兩個方向","hint":"完成第 3 次「整理材料標本」","image":"assets/series-materials-3.jpg","text":"波蘿胖胖把深淺木板轉了半圈，讓木紋順著光看。"}
+  ,{"id":"series_materials_4","group":"activity","type":"活動","series":"材料標本","title":"霧面玻璃的一束光","hint":"完成第 4 次「整理材料標本」","image":"assets/series-materials-4.jpg","text":"姑姑羅舉起玻璃，窗影一下子變得柔和。"}
+  ,{"id":"series_materials_5","group":"activity","type":"活動","series":"材料標本","title":"布料架的織紋","hint":"完成第 5 次「整理材料標本」","image":"assets/series-materials-5.jpg","text":"香蕉吐司在布料架前試折一小角，觀察它會怎麼垂下。"}
+  ,{"id":"series_materials_6","group":"activity","type":"活動","series":"材料標本","title":"搬起一小片石頭","hint":"完成第 6 次「整理材料標本」","image":"assets/series-materials-6.jpg","text":"波蘿胖胖把石材樣本托起來看，還好只要搬這一小片。"}
+  ,{"id":"series_materials_7","group":"activity","type":"活動","series":"材料標本","title":"地板試色現場","hint":"完成第 7 次「整理材料標本」","image":"assets/series-materials-7.jpg","text":"小尾巴貼近地板色板，從比平常更低的視角看色差。"}
+  ,{"id":"series_materials_8","group":"activity","type":"活動","series":"材料標本","title":"金屬反光測試","hint":"完成第 8 次「整理材料標本」","image":"assets/series-materials-8.jpg","text":"姑姑羅把兩片金屬挪到光裡，一片亮得他直眨眼。"}
+  ,{"id":"series_materials_9","group":"activity","type":"活動","series":"材料標本","title":"樣本牆完工","hint":"完成第 9 次「整理材料標本」","image":"assets/series-materials-9.jpg","text":"木紋、玻璃和布料都上了牆，大家可以直接對著它討論。"}
+  ,{"id":"series_models_1","group":"activity","type":"活動","series":"模型工作台","title":"微型坡道打磨","hint":"完成第 1 次「完善展示模型」","image":"assets/series-models-1.jpg","text":"波蘿胖胖把小木坡道的邊角磨得順手。"}
+  ,{"id":"series_models_2","group":"activity","type":"活動","series":"模型工作台","title":"一筆一片小屋瓦","hint":"完成第 2 次「完善展示模型」","image":"assets/series-models-2.jpg","text":"小尾巴慢慢刷屋瓦，努力讓顏色留在同一條線上。"}
+  ,{"id":"series_models_3","group":"activity","type":"活動","series":"模型工作台","title":"鑷子種樹","hint":"完成第 3 次「完善展示模型」","image":"assets/series-models-3.jpg","text":"香蕉吐司用鑷子把迷你樹種進模型裡，再退一步檢查位置。"}
+  ,{"id":"series_models_4","group":"activity","type":"活動","series":"模型工作台","title":"紙板雨棚試裝","hint":"完成第 4 次「完善展示模型」","image":"assets/series-models-4.jpg","text":"姑姑羅先拿大紙板試比雨棚深度，看看影子會落在哪。"}
+  ,{"id":"series_models_5","group":"activity","type":"活動","series":"模型工作台","title":"樓梯拼接試作","hint":"完成第 5 次「完善展示模型」","image":"assets/series-models-5.jpg","text":"小尾巴把兩段樓梯推在一起，終於接成一條完整的路。"}
+  ,{"id":"series_models_6","group":"activity","type":"活動","series":"模型工作台","title":"窗框的最後一筆","hint":"完成第 6 次「完善展示模型」","image":"assets/series-models-6.jpg","text":"香蕉吐司替窗框補上最後一筆，連轉角都塗整齊了。"}
+  ,{"id":"series_models_7","group":"activity","type":"活動","series":"模型工作台","title":"托穩模型底板","hint":"完成第 7 次「完善展示模型」","image":"assets/series-models-7.jpg","text":"波蘿胖胖把底板托穩，耐心等大家把零件放好。"}
+  ,{"id":"series_models_8","group":"activity","type":"活動","series":"模型工作台","title":"中庭亮起來了","hint":"完成第 8 次「完善展示模型」","image":"assets/series-models-8.jpg","text":"姑姑羅挪著小燈照進中庭，也看見藏在樹下的長椅。"}
+  ,{"id":"series_models_9","group":"activity","type":"活動","series":"模型工作台","title":"微型家具搬家","hint":"完成第 9 次「完善展示模型」","image":"assets/series-models-9.jpg","text":"大家替模型搬進小桌和小椅，第一次有了像要開門營業的樣子。"}
+  ,{"id":"series_studio_1","group":"activity","type":"活動","series":"事務所片刻","title":"影印機接紙挑戰","hint":"完成第 1 次「記錄事務所日常」","image":"assets/series-studio-1.jpg","text":"姑姑羅在影印機旁接住滑出來的那一頁。"}
+  ,{"id":"series_studio_2","group":"activity","type":"活動","series":"事務所片刻","title":"窗邊分點心","hint":"完成第 2 次「記錄事務所日常」","image":"assets/series-studio-2.jpg","text":"波蘿胖胖把最大塊留到最後，故意問還有沒有人要。"}
+  ,{"id":"series_studio_3","group":"activity","type":"活動","series":"事務所片刻","title":"緞帶收納日","hint":"完成第 3 次「記錄事務所日常」","image":"assets/series-studio-3.jpg","text":"香蕉吐司把纏在一起的緞帶逐條理順。"}
+  ,{"id":"series_studio_4","group":"activity","type":"活動","series":"事務所片刻","title":"安全帽亮晶晶","hint":"完成第 4 次「記錄事務所日常」","image":"assets/series-studio-4.jpg","text":"小尾巴擦完安全帽，對著光又檢查了一次。"}
+  ,{"id":"series_studio_5","group":"activity","type":"活動","series":"事務所片刻","title":"陽台的葉子","hint":"完成第 5 次「記錄事務所日常」","image":"assets/series-studio-5.jpg","text":"波蘿胖胖擦掉葉片上的灰，才看見它剛冒出的新芽。"}
+  ,{"id":"series_studio_6","group":"activity","type":"活動","series":"事務所片刻","title":"誰畫的這條線","hint":"完成第 6 次「記錄事務所日常」","image":"assets/series-studio-6.jpg","text":"姑姑羅盯著白板上的亂線，努力回想自己是不是畫的人。"}
+  ,{"id":"series_studio_7","group":"activity","type":"活動","series":"事務所片刻","title":"杯子排排站","hint":"完成第 7 次「記錄事務所日常」","image":"assets/series-studio-7.jpg","text":"香蕉吐司把杯子依色調排好，連杯耳都轉向同一邊。"}
+  ,{"id":"series_studio_8","group":"activity","type":"活動","series":"事務所片刻","title":"推車快要滿了","hint":"完成第 8 次「記錄事務所日常」","image":"assets/series-studio-8.jpg","text":"小尾巴推著一整車書經過，還跟每位同事打了招呼。"}
+  ,{"id":"series_studio_9","group":"activity","type":"活動","series":"事務所片刻","title":"遲到的點心盒","hint":"完成第 9 次「記錄事務所日常」","image":"assets/series-studio-9.jpg","text":"大家已經要收工了，桌中央那盒點心還是成功讓所有人坐回來。"}
+  ,{"id":"series_bolo_1","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"藏在圖紙後的餅乾","hint":"完成第 1 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-1.jpg","text":"圖紙越疊越高，餅乾盒卻一直在手邊。"}
+  ,{"id":"series_bolo_2","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"抱著文件上樓","hint":"完成第 2 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-2.jpg","text":"波蘿胖胖抱穩文件，一階一階走上去。"}
+  ,{"id":"series_bolo_3","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"陽台香草照顧日","hint":"完成第 3 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-3.jpg","text":"波蘿胖胖澆完水，低頭聞了聞盆栽。"}
+  ,{"id":"series_bolo_4","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"工作清單第一條","hint":"完成第 4 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-4.jpg","text":"他打開大筆記本，先把今天最容易忘的事情寫下。"}
+  ,{"id":"series_bolo_5","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"袖口捲好再擦","hint":"完成第 5 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-5.jpg","text":"波蘿胖胖一捲起袖口，白色模型就知道要洗澡了。"}
+  ,{"id":"series_bolo_6","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"窗邊的熱飲","hint":"完成第 6 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-6.jpg","text":"他把熱杯捧近一點，靜靜看著窗外。"}
+  ,{"id":"series_bolo_7","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"逃走的鉛筆","hint":"完成第 7 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-7.jpg","text":"一支鉛筆滾到桌邊，被波蘿胖胖用鼻尖攔下。"}
+  ,{"id":"series_bolo_8","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"木料邊角研究","hint":"完成第 8 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-8.jpg","text":"他把切下來的小木塊排好，想著還能拿來做什麼。"}
+  ,{"id":"series_bolo_9","group":"character","type":"個人側拍","series":"波蘿胖胖","title":"烤餅乾出爐","hint":"完成第 9 次「波蘿胖胖的工作特寫」","image":"assets/series-bolo-9.jpg","text":"淡色圍裙還沒解開，餅乾已經要被大家分完。"}
+  ,{"id":"series_husky_1","group":"character","type":"個人側拍","series":"姑姑羅","title":"圖紙筒望遠鏡","hint":"完成第 1 次「姑姑羅的工作特寫」","image":"assets/series-husky-1.jpg","text":"姑姑羅從紙筒看過去，正好對上同事的視線。"}
+  ,{"id":"series_husky_2","group":"character","type":"個人側拍","series":"姑姑羅","title":"口袋裡有兔子","hint":"完成第 2 次「姑姑羅的工作特寫」","image":"assets/series-husky-2.jpg","text":"背心多了一對耳朵，姑姑羅還假裝什麼都沒發生。"}
+  ,{"id":"series_husky_3","group":"character","type":"個人側拍","series":"姑姑羅","title":"歪頭看歪線","hint":"完成第 3 次「姑姑羅的工作特寫」","image":"assets/series-husky-3.jpg","text":"姑姑羅把頭一歪，線看起來就直了一點。"}
+  ,{"id":"series_husky_4","group":"character","type":"個人側拍","series":"姑姑羅","title":"桌邊的兔子影","hint":"完成第 4 次「姑姑羅的工作特寫」","image":"assets/series-husky-4.jpg","text":"小手電筒一亮，牆上的兔子就跑出來了。"}
+  ,{"id":"series_husky_5","group":"character","type":"個人側拍","series":"姑姑羅","title":"捲尺得逞了","hint":"完成第 5 次「姑姑羅的工作特寫」","image":"assets/series-husky-5.jpg","text":"姑姑羅拉開尺帶，露出好像剛完成一件大事的笑。"}
+  ,{"id":"series_husky_6","group":"character","type":"個人側拍","series":"姑姑羅","title":"救回翹角便條","hint":"完成第 6 次「姑姑羅的工作特寫」","image":"assets/series-husky-6.jpg","text":"他用一小截膠帶壓住便條角，勉強搶救成功。"}
+  ,{"id":"series_husky_7","group":"character","type":"個人側拍","series":"姑姑羅","title":"紙帽先藏著","hint":"完成第 7 次「姑姑羅的工作特寫」","image":"assets/series-husky-7.jpg","text":"姑姑羅蹲在椅背後，等著看誰先發現紙帽。"}
+  ,{"id":"series_husky_8","group":"character","type":"個人側拍","series":"姑姑羅","title":"時鐘轉正","hint":"完成第 8 次「姑姑羅的工作特寫」","image":"assets/series-husky-8.jpg","text":"姑姑羅把時鐘轉回正面，好讓全辦公室看見下班倒數。"}
+  ,{"id":"series_husky_9","group":"character","type":"個人側拍","series":"姑姑羅","title":"眨眼交接","hint":"完成第 9 次「姑姑羅的工作特寫」","image":"assets/series-husky-9.jpg","text":"姑姑羅交出文件夾時，還順手給了鏡頭一個暗號。"}
+  ,{"id":"series_toast_1","group":"character","type":"個人側拍","series":"香蕉吐司","title":"一排新色票","hint":"完成第 1 次「香蕉吐司的工作特寫」","image":"assets/series-toast-1.jpg","text":"香蕉吐司慢慢刷出一整排試色，等乾了再決定。"}
+  ,{"id":"series_toast_2","group":"character","type":"個人側拍","series":"香蕉吐司","title":"花盆先試色","hint":"完成第 2 次「香蕉吐司的工作特寫」","image":"assets/series-toast-2.jpg","text":"香蕉吐司捧著花盆換了幾個角落，才選定它的位置。"}
+  ,{"id":"series_toast_3","group":"character","type":"個人側拍","series":"香蕉吐司","title":"布樣抽屜打開了","hint":"完成第 3 次「香蕉吐司的工作特寫」","image":"assets/series-toast-3.jpg","text":"抽屜一拉就像一張色卡，香蕉吐司知道每片布在哪。"}
+  ,{"id":"series_toast_4","group":"character","type":"個人側拍","series":"香蕉吐司","title":"窗邊轉玻璃","hint":"完成第 4 次「香蕉吐司的工作特寫」","image":"assets/series-toast-4.jpg","text":"玻璃試片轉了幾次，才終於找到最好看的光。"}
+  ,{"id":"series_toast_5","group":"character","type":"個人側拍","series":"香蕉吐司","title":"一盤磁磚要排齊","hint":"完成第 5 次「香蕉吐司的工作特寫」","image":"assets/series-toast-5.jpg","text":"香蕉吐司把歪掉的那片挪回線上，這才點頭。"}
+  ,{"id":"series_toast_6","group":"character","type":"個人側拍","series":"香蕉吐司","title":"迷你抱枕換邊","hint":"完成第 6 次「香蕉吐司的工作特寫」","image":"assets/series-toast-6.jpg","text":"把抱枕放到另一側之後，香蕉吐司終於不想再動它。"}
+  ,{"id":"series_toast_7","group":"character","type":"個人側拍","series":"香蕉吐司","title":"格紋要對上","hint":"完成第 7 次「香蕉吐司的工作特寫」","image":"assets/series-toast-7.jpg","text":"桌巾摺了兩次，格紋終於在邊角對齊。"}
+  ,{"id":"series_toast_8","group":"character","type":"個人側拍","series":"香蕉吐司","title":"木紋放大看","hint":"完成第 8 次「香蕉吐司的工作特寫」","image":"assets/series-toast-8.jpg","text":"香蕉吐司把放大鏡移近，找出木紋最自然的交界。"}
+  ,{"id":"series_toast_9","group":"character","type":"個人側拍","series":"香蕉吐司","title":"材質筆記複查","hint":"完成第 9 次「香蕉吐司的工作特寫」","image":"assets/series-toast-9.jpg","text":"戴上細框眼鏡，再核對一次筆記裡的材質。"}
+  ,{"id":"series_tail_1","group":"character","type":"個人側拍","series":"小尾巴","title":"抱著安全帽出發","hint":"完成第 1 次「小尾巴的工作特寫」","image":"assets/series-tail-1.jpg","text":"小尾巴先把安全帽抱在胸前，走到門口才想起要戴。"}
+  ,{"id":"series_tail_2","group":"character","type":"個人側拍","series":"小尾巴","title":"短尺也能畫長線","hint":"完成第 2 次「小尾巴的工作特寫」","image":"assets/series-tail-2.jpg","text":"小尾巴在畫板前挪了幾次短尺，終於連成一條線。"}
+  ,{"id":"series_tail_3","group":"character","type":"個人側拍","series":"小尾巴","title":"圖紙捲運送中","hint":"完成第 3 次「小尾巴的工作特寫」","image":"assets/series-tail-3.jpg","text":"那捲紙比小尾巴還高，只好推著它慢慢走。"}
+  ,{"id":"series_tail_4","group":"character","type":"個人側拍","series":"小尾巴","title":"台燈下的小椅子","hint":"完成第 4 次「小尾巴的工作特寫」","image":"assets/series-tail-4.jpg","text":"小尾巴在燈下挪動模型椅，總算讓四腳都站穩。"}
+  ,{"id":"series_tail_5","group":"character","type":"個人側拍","series":"小尾巴","title":"今天記得存檔","hint":"完成第 5 次「小尾巴的工作特寫」","image":"assets/series-tail-5.jpg","text":"一張藍便條貼在最顯眼的位置，提醒小尾巴再按一次儲存。"}
+  ,{"id":"series_tail_6","group":"character","type":"個人側拍","series":"小尾巴","title":"第一本圖冊","hint":"完成第 6 次「小尾巴的工作特寫」","image":"assets/series-tail-6.jpg","text":"小尾巴終於整理完一本圖冊，捧得像剛領到獎。"}
+  ,{"id":"series_tail_7","group":"character","type":"個人側拍","series":"小尾巴","title":"貼著桌沿對格線","hint":"完成第 7 次「小尾巴的工作特寫」","image":"assets/series-tail-7.jpg","text":"小尾巴把視線壓得很低，發現原來歪的是紙張。"}
+  ,{"id":"series_tail_8","group":"character","type":"個人側拍","series":"小尾巴","title":"矮凳還書記","hint":"完成第 8 次「小尾巴的工作特寫」","image":"assets/series-tail-8.jpg","text":"踩上矮凳剛好碰到書架，小尾巴把書放回原位。"}
+  ,{"id":"series_tail_9","group":"character","type":"個人側拍","series":"小尾巴","title":"交出小模型","hint":"完成第 9 次「小尾巴的工作特寫」","image":"assets/series-tail-9.jpg","text":"小尾巴抱著完成的小模型，這次的笑比模型先到。"}
 ];
 
 const missions = [
@@ -90,9 +162,18 @@ const missions = [
   ,{ id: 'birthday_tail_mission', owner: '事務所', kind: '限定生日', title: '小尾巴生日許願', desc: '在夕陽落下後，替第一次在事務所過生日的小尾巴點亮蠟燭。', reward: ['birthday_tail'], requiredCharacters: ['tail'], prompt: '小尾巴閉上眼睛許了願，也把這個傍晚好好記了下來。' }
   ,{ id: 'winter_display', owner: '羽田', kind: '節日委託', title: '布置冬日櫥窗', desc: '替店鋪布置冬日櫥窗，把紙雪花、小屋模型與星星分層擺好。', reward: ['winter_window'], participantBonuses: { husky: 'christmas_husky', tail: 'christmas_tail' }, prompt: '路過的人停在玻璃前，數起櫥窗裡亮著燈的小屋。' }
   ,{ id: 'winter_gifts', owner: '事務所', kind: '節日活動', title: '準備聖誕交換禮物', desc: '用牛皮紙和緞帶包好禮物，再把名字卡放到一旁。', reward: ['winter_wrapping'], participantBonuses: { bolo: 'christmas_bolo', toast: 'christmas_toast' }, prompt: '所有禮物都包好了。接下來只要忍住不猜盒子裡裝了什麼。' }
+  ,{"id":"series_site","owner":"木亦","kind":"系列活動","title":"工地觀察巡查","desc":"記錄現場的尺寸、採光和動線。","reward":["series_site_1","series_site_2","series_site_3","series_site_4","series_site_5","series_site_6","series_site_7","series_site_8","series_site_9"],"prompt":"現場觀察已記進工作簿。"}
+  ,{"id":"series_materials","owner":"羽田","kind":"系列活動","title":"整理材料標本","desc":"為材料櫃挑選樣本並記下不同質感。","reward":["series_materials_1","series_materials_2","series_materials_3","series_materials_4","series_materials_5","series_materials_6","series_materials_7","series_materials_8","series_materials_9"],"prompt":"樣本都找到了自己的位置。"}
+  ,{"id":"series_models","owner":"木亦","kind":"系列活動","title":"完善展示模型","desc":"在工作台逐一試做模型細節。","reward":["series_models_1","series_models_2","series_models_3","series_models_4","series_models_5","series_models_6","series_models_7","series_models_8","series_models_9"],"prompt":"展示模型多了一段新細節。"}
+  ,{"id":"series_studio","owner":"事務所","kind":"系列活動","title":"記錄事務所日常","desc":"在工作空檔觀察同事們的小插曲。","reward":["series_studio_1","series_studio_2","series_studio_3","series_studio_4","series_studio_5","series_studio_6","series_studio_7","series_studio_8","series_studio_9"],"prompt":"今天的辦公室又多了一段回憶。"}
+  ,{"id":"series_bolo","owner":"事務所","kind":"個人日常","title":"波蘿胖胖的工作特寫","desc":"記錄波蘿胖胖的工作習慣和生活小插曲。","reward":["series_bolo_1","series_bolo_2","series_bolo_3","series_bolo_4","series_bolo_5","series_bolo_6","series_bolo_7","series_bolo_8","series_bolo_9"],"prompt":"波蘿胖胖留下了一張個人側拍。","requiredCharacters":["bolo"]}
+  ,{"id":"series_husky","owner":"事務所","kind":"個人日常","title":"姑姑羅的工作特寫","desc":"記下姑姑羅靈機一動的時刻。","reward":["series_husky_1","series_husky_2","series_husky_3","series_husky_4","series_husky_5","series_husky_6","series_husky_7","series_husky_8","series_husky_9"],"prompt":"姑姑羅又被拍到一個鬼主意。","requiredCharacters":["husky"]}
+  ,{"id":"series_toast","owner":"事務所","kind":"個人日常","title":"香蕉吐司的工作特寫","desc":"記錄香蕉吐司整理樣本和核對配色的日常。","reward":["series_toast_1","series_toast_2","series_toast_3","series_toast_4","series_toast_5","series_toast_6","series_toast_7","series_toast_8","series_toast_9"],"prompt":"香蕉吐司留下了一張工作側拍。","requiredCharacters":["toast"]}
+  ,{"id":"series_tail","owner":"事務所","kind":"個人日常","title":"小尾巴的工作特寫","desc":"記錄小尾巴慢慢上手的實習日常。","reward":["series_tail_1","series_tail_2","series_tail_3","series_tail_4","series_tail_5","series_tail_6","series_tail_7","series_tail_8","series_tail_9"],"prompt":"小尾巴的實習日誌又添了一頁。","requiredCharacters":["tail"]}
 ];
 
-const NEW_MISSION_IDS = new Set(['winter_display', 'winter_gifts']);
+const NEW_MISSION_IDS = new Set(missions.filter(mission => mission.id.startsWith('series_')).map(mission => mission.id));
+let albumSeries = '';
 
 const MAX_DAILY_ACTIONS = 5;
 const RULES_VERSION = 2;
@@ -611,28 +692,39 @@ function canStartMission() { return selectedMission?.requiredCharacters ? matche
 
 function renderAlbum() {
   const validUnlocked = collectibles.filter(item => state.unlocked.includes(item.id));
+  const seriesOptions = [...new Set(collectibles.map(item => item.series).filter(Boolean))];
   const groups = [
     { id: 'activity', eyebrow: 'OFFICE MOMENTS', title: '事務所活動圖鑑', note: '活動人數依故事自然安排，不限制固定成員數量。' },
     { id: 'character', eyebrow: 'PERSONAL CARDS', title: '個人圖鑑卡', note: '收集角色的個人卡、限定服裝和事務所語錄。' }
   ];
   app.innerHTML = `
     <div class="section-head"><div><p class="eyebrow">COLLECTION</p><h2>築城事務所圖鑑</h2></div><div><p>${validUnlocked.length}／${collectibles.length} 已收集</p><div class="progress"><i style="width:${validUnlocked.length / collectibles.length * 100}%"></i></div></div></div>
+    <label class="album-series">圖鑑系列 <select data-album-series><option value="">全部圖鑑</option>${seriesOptions.map(name => `<option ${name === albumSeries ? 'selected' : ''}>${name}</option>`).join('')}</select></label>
     ${groups.map(group => {
-      const items = collectibles.filter(item => item.group === group.id);
+      const items = collectibles.filter(item => item.group === group.id && (!albumSeries || item.series === albumSeries));
+      if (!items.length) return '';
       return `<section class="album-section"><div class="subsection-head"><div><p class="eyebrow">${group.eyebrow}</p><h3>${group.title}</h3></div><p>${group.note}</p></div><div class="album-grid ${group.id === 'character' ? 'personal-grid' : ''}">
         ${items.map(item => {
           const open = state.unlocked.includes(item.id);
           const tag = open ? 'button' : 'article';
           const action = open ? ` type="button" data-open-collectible="${item.id}" aria-label="查看${item.title}完整收藏"` : '';
           return `<${tag} class="album-card ${open ? 'open' : 'locked'} ${open && !state.seen.includes(item.id) ? 'new' : ''}"${action}>
-            <div class="album-visual"><img src="${item.image}" alt="${open ? item.title : '尚未解鎖的收藏'}"></div>
+            <div class="album-visual"><img loading="lazy" src="${item.image}" alt="${open ? item.title : '尚未解鎖的收藏'}"></div>
             <div class="album-info"><span class="tag">${open ? item.type : '尚未發現'}</span><h3>${open ? item.title : '？？？'}</h3><p>${open ? (item.quote ? `「${item.quote}」` : item.text) : item.hint}</p></div>
           </${tag}>`;
         }).join('')}
       </div></section>`;
     }).join('')}`;
-  state.seen = [...new Set([...state.seen, ...state.unlocked])]; saveState(); updateChrome();
+  const visibleUnlocked = validUnlocked.filter(item => !albumSeries || item.series === albumSeries);
+  state.seen = [...new Set([...state.seen, ...visibleUnlocked.map(item => item.id)])]; saveState(); updateChrome();
 }
+
+app.addEventListener('change', event => {
+  if (!event.target.matches('[data-album-series]')) return;
+  albumSeries = event.target.value;
+  renderAlbum();
+  app.querySelector('[data-album-series]').focus({ preventScroll: true });
+});
 
 function openCollectible(id) {
   const item = byId(id);
@@ -660,6 +752,9 @@ function openMission(id) {
 }
 
 function drawMissionDialog() {
+  const seriesProgress = selectedMission.id.startsWith('series_')
+    ? selectedMission.reward.filter(id => state.unlocked.includes(id)).length
+    : null;
   const participationHints = Object.values(selectedMission.participantBonuses || {})
     .filter(id => !state.unlocked.includes(id))
     .map(id => byId(id).hint);
@@ -667,6 +762,7 @@ function drawMissionDialog() {
     <p class="eyebrow">${selectedMission.owner}・${selectedMission.kind}</p>
     <h2 id="mission-title">${selectedMission.title}</h2>
     <p>${selectedMission.desc}</p>
+    ${seriesProgress === null ? '' : `<p>系列進度 ${seriesProgress}／${selectedMission.reward.length}${seriesProgress < selectedMission.reward.length ? '，本次可收集下一張。' : '，系列已收齊。'}</p>`}
     <h3>${selectedMission.requiredCharacters ? '本任務指定參與成員' : '選擇一至兩位參與成員'}</h3>
     <div class="employee-picker">
       ${characters.map(c => {
@@ -695,7 +791,7 @@ function completeMission(planSummary = '') {
   const mission = selectedMission;
   if (!mission || !canStartMission() || state.actions <= 0 || state.completedToday.includes(mission.id)) return;
   const available = mission.reward.filter(id => !state.unlocked.includes(id));
-  let rewardId = available[0] || mission.reward[Math.floor(Math.random() * mission.reward.length)];
+  const rewardId = available[0] || mission.reward[Math.floor(Math.random() * mission.reward.length)];
   const isNew = !state.unlocked.includes(rewardId);
   if (isNew) state.unlocked.push(rewardId);
   const newPersonalCards = selectedCharacters

@@ -84,6 +84,8 @@ h1 { font-size: clamp(2rem, 5vw, 3.8rem); line-height: 1.12; margin-bottom: 18px
 .album-card.open::before { content: "點開大圖"; position: absolute; z-index: 2; left: 10px; top: 10px; padding: 5px 9px; border-radius: 99px; background: rgba(68,52,58,.76); color: white; font-size: .75rem; font-weight: 800; opacity: 0; transform: translateY(-3px); transition: .2s ease; }
 .album-card.open:hover::before, .album-card.open:focus-visible::before { opacity: 1; transform: translateY(0); }
 .album-section { margin-top: 34px; }
+.album-series { display: inline-flex; align-items: center; gap: 8px; }
+.album-series select { min-height: 44px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 12px; background: white; color: var(--ink); font: inherit; }
 .subsection-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 14px; }
 .subsection-head h3 { margin: 0; font-size: 1.35rem; }
 .subsection-head p:last-child { color: var(--muted); margin: 0; }
