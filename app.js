@@ -33,6 +33,10 @@ const collectibles = [
   { id: 'card_yutian', group: 'character', type: '個人卡', title: '羽田', hint: '初始角色', image: 'assets/card-yutian.jpg', text: '短髮女建築師，負責一般店鋪裝修案與額外送件。' },
   { id: 'card_bolo', group: 'character', type: '個人卡', title: '波蘿胖胖', hint: '讓波蘿胖胖參與一次任務', image: 'assets/card-bolo-v2.jpg', text: '黃金獵犬、穩定型成員。先補充零食，再陪大家把事情處理好。' },
   { id: 'card_husky', group: 'character', type: '個人卡', title: '哈士奇姑姑羅', hint: '讓哈士奇姑姑羅參與一次任務', image: 'assets/card-husky.jpg', text: '果斷型成員，擅長快速察覺問題並立刻採取行動。' },
+  { id: 'quote_husky_area', group: 'character', type: '語錄卡', title: '姑姑羅・面積速算', hint: '派姑姑羅完成「店鋪空間規劃」', image: 'assets/quote-husky-area.jpg', quote: '面積算的對不對不重要! 重點是算得快!', text: '姑姑羅把計算機一推，得意地宣布自己算完了。過了兩秒，才發現剛剛算的是隔壁那間。' },
+  { id: 'quote_bolo_waste', group: 'character', type: '語錄卡', title: '波蘿胖胖・施工損耗', hint: '派波蘿胖胖完成「試作展示層板」', image: 'assets/quote-bolo-waste.jpg', quote: '我有算施工損耗啊。那包餅乾就是', text: '木料一塊也沒少。餅乾的損耗率倒是已經超過一半。' },
+  { id: 'quote_toast_white', group: 'character', type: '語錄卡', title: '香蕉吐司・白色鑑定', hint: '派香蕉吐司完成「材料挑選會議」', image: 'assets/quote-toast-white.jpg', quote: '這兩個白差很多。左邊是白，右邊是你沒認真看', text: '桌上兩塊色樣被轉了三次方向。香蕉吐司還是堅持大家先眨一下眼再看。' },
+  { id: 'quote_tail_scale', group: 'character', type: '語錄卡', title: '小尾巴・比例縮小', hint: '派小尾巴完成「店鋪空間規劃」', image: 'assets/quote-tail-scale.jpg', quote: '我有照比例縮小啊，只是整張圖縮小，尺寸沒改', text: '小尾巴舉起巴掌大的圖紙，上頭的尺寸數字一個都沒少。' },
   { id: 'card_toast', group: 'character', type: '個人卡', title: '香蕉吐司', hint: '讓香蕉吐司參與一次任務', image: 'assets/card-toast.jpg', text: '細節型成員，對材質、色彩與小地方都非常講究。' },
   { id: 'card_tail', group: 'character', type: '個人卡', title: '小尾巴', hint: '讓小尾巴參與一次任務', image: 'assets/card-tail-v2.jpg', text: '白色博美、適應型實習成員，對新工作既期待又有一點緊張。' }
   ,{ id: 'card_bolo_rain', group: 'character', type: '服裝卡', title: '波蘿胖胖・雨天踏查', hint: '完成「雨天現場確認」任務', image: 'assets/costume-bolo-rain.jpg', text: '換上黃色雨衣，圖面和零食都能安全抵達現場。' }
@@ -48,22 +52,22 @@ const collectibles = [
   ,{ id: 'birthday_toast', group: 'character', type: '生日卡', title: '香蕉吐司・生日配色', hint: '讓香蕉吐司單獨完成「香蕉吐司生日配色」', image: 'assets/birthday-toast.jpg', text: '連生日蛋糕的緞帶也要仔細比較，最後選出了最剛好的粉紅與橄欖綠。' }
   ,{ id: 'birthday_tail', group: 'character', type: '生日卡', title: '小尾巴・第一次許願', hint: '讓小尾巴單獨完成「小尾巴生日許願」', image: 'assets/birthday-tail.jpg', text: '小小的蠟燭照亮窗邊，第一次在事務所許下了不告訴任何人的願望。' }
   ,{ id: 'winter_window', group: 'activity', type: '活動', title: '櫥窗裡的雪國小鎮', hint: '完成「布置冬日櫥窗」', image: 'assets/activity-window-display.jpg', text: '紙雪花落在小屋模型上，街角櫥窗變成了等人停下腳步的冬日小鎮。' }
-  ,{ id: 'winter_wrapping', group: 'activity', type: '日常', title: '事務所的禮物包裝夜', hint: '完成「準備聖誕交換禮物」', image: 'assets/activity-gift-workshop.jpg', text: '牛皮紙、緞帶和小卡堆滿工作桌。有人很認真地打蝴蝶結，有人偷偷晃了晃自己的禮物。' }
+  ,{ id: 'winter_wrapping', group: 'activity', type: '日常', title: '事務所的禮物包裝夜', hint: '完成「準備聖誕交換禮物」', image: 'assets/activity-gift-workshop-v2.jpg', text: '牛皮紙、緞帶和小卡堆滿工作桌。有人很認真地打蝴蝶結，有人偷偷晃了晃自己的禮物。' }
   ,{ id: 'christmas_bolo', group: 'character', type: '服裝卡', title: '波蘿胖胖・聖誕餅乾時間', hint: '派波蘿胖胖參與「準備聖誕交換禮物」', image: 'assets/costume-bolo-christmas-v3.jpg', text: '換上暖暖的節日毛衣，抱著那盒答應要和大家分享的餅乾。' }
   ,{ id: 'christmas_husky', group: 'character', type: '服裝卡', title: '姑姑羅・銀鈴小精靈', hint: '派姑姑羅參與「布置冬日櫥窗」', image: 'assets/costume-husky-christmas.jpg', text: '銀鈴叮一聲，藏在背後的緞帶就差點露餡。' }
-  ,{ id: 'christmas_toast', group: 'character', type: '服裝卡', title: '香蕉吐司・冬青緞帶', hint: '派香蕉吐司參與「準備聖誕交換禮物」', image: 'assets/costume-toast-christmas.jpg', text: '冬青綠背心配上格紋蝴蝶結，禮物的緞帶當然也要挑剛好的顏色。' }
+  ,{ id: 'christmas_toast', group: 'character', type: '服裝卡', title: '香蕉吐司・冬青緞帶', hint: '派香蕉吐司參與「準備聖誕交換禮物」', image: 'assets/costume-toast-christmas-v2.jpg', text: '冬青綠背心配上格紋蝴蝶結，禮物的緞帶當然也要挑剛好的顏色。' }
   ,{ id: 'christmas_tail', group: 'character', type: '服裝卡', title: '小尾巴・捧星小斗篷', hint: '派小尾巴參與「布置冬日櫥窗」', image: 'assets/costume-tail-christmas.jpg', text: '披上小斗篷，踮著腳想把最亮的一顆星星掛上去。' }
 ];
 
 const missions = [
-  { id: 'layout', owner: '木亦', kind: '主案', title: '店鋪空間規劃', desc: '替委託店鋪勘查現場。派員後可開啟平面規劃，親自安排家具與動線。', reward: ['site_survey'], prompt: '尺寸與現況都記錄好了，大家也開始想像完成後的店鋪。' },
+  { id: 'layout', owner: '木亦', kind: '主案', title: '店鋪空間規劃', desc: '替委託店鋪勘查現場。派員後可開啟平面規劃，親自安排家具與動線。', reward: ['site_survey'], participantBonuses: { husky: 'quote_husky_area', tail: 'quote_tail_scale' }, prompt: '尺寸與現況都記錄好了，大家也開始想像完成後的店鋪。' },
   { id: 'delivery', owner: '羽田', kind: '額外任務', title: '很快的裝修送件', desc: '整理正確版本，一起送出一般店鋪裝修資料。', reward: ['delivery'], prompt: '文件整理完成，羽田帶著大家精神滿滿地出發了。' },
   { id: 'birthday', owner: '事務所', kind: '日常', title: '準備生日驚喜', desc: '在本人發現前，把蛋糕和裝飾準備好。', reward: ['birthday'], prompt: '驚喜順利完成！今天的工作紀錄多了一張大家都在笑的照片。' },
   { id: 'pest', owner: '事務所', kind: '突發事件', title: '辦公室大騷動', desc: '保護模型和零食，處理突然出現的不速之客。', reward: ['pest'], prompt: '一陣混亂過後，模型、文件與零食全部平安，辦公室恢復了秩序。' },
   { id: 'repair', owner: '事務所', kind: '工作', title: '修好白色模型', desc: '一起把受損的建築模型重新組合完成。', reward: ['model_repair'], prompt: '牆面、樹木與小零件都回到正確位置，模型再次完整。' },
   { id: 'overtime', owner: '木亦', kind: '日常', title: '今晚一起加班', desc: '整理桌面、推進圖面，當然也要先準備宵夜。', reward: ['overtime'], prompt: '工作還在繼續，但熱騰騰的宵夜讓整間事務所重新有了精神。' },
   { id: 'presentation', owner: '木亦', kind: '工作', title: '準備設計提案', desc: '確認模型、材料板與提案內容，進行最後一次演練。', reward: ['presentation'], prompt: '大家輪流檢查內容，提案道具和說明順序都已經準備完成。' },
-  { id: 'materials', owner: '羽田', kind: '工作', title: '材料挑選會議', desc: '比較布料、木材、色卡與磁磚樣本，留下最適合的組合。', reward: ['materials'], prompt: '最後選出的材料看起來很接近，但香蕉吐司知道它們的差別。' },
+  { id: 'materials', owner: '羽田', kind: '工作', title: '材料挑選會議', desc: '比較布料、木材、色卡與磁磚樣本，留下最適合的組合。', reward: ['materials'], participantBonuses: { toast: 'quote_toast_white' }, prompt: '最後選出的材料看起來很接近，但香蕉吐司知道它們的差別。' },
   { id: 'printer', owner: '事務所', kind: '突發事件', title: '搶救出圖作業', desc: '在圖紙堆滿地板以前，處理大型印表機的卡紙問題。', reward: ['printer_jam'], prompt: '圖面順利印出，長長的圖紙也終於全部整理完成。' },
   { id: 'nap', owner: '波蘿胖胖', kind: '日常', title: '安靜的午後', desc: '整理好工作後，讓事務所度過一段不被打擾的午休時間。', reward: ['nap'], prompt: '波蘿胖胖先趴下了，其他人也逐漸找到最舒服的位置。' }
   ,{ id: 'rainy', owner: '木亦', kind: '外出', title: '雨天現場確認', desc: '帶好雨具與圖面，到店鋪確認雨天排水和施工狀況。', reward: ['rainy_site'], bonus: ['card_bolo_rain'], prompt: '雨勢不小，但尺寸、外牆與排水狀況都順利確認完成。' }
@@ -79,7 +83,7 @@ const missions = [
   ,{ id: 'leak', owner: '木亦', kind: '現況紀錄', title: '記錄漏水位置', desc: '保護模型與材料，觀察並標記每一處漏水的位置。', reward: ['roof_leak'], prompt: '漏水時間、位置與影響範圍都記錄完成，後續處理有了清楚依據。' }
   ,{ id: 'photoshoot', owner: '木亦', kind: '成果紀錄', title: '拍攝完工空間', desc: '整理場景、調整模型與道具，完成正式作品攝影。', reward: ['photo_day'], prompt: '光線與構圖確認完成，這次的設計成果被好好保存下來。' }
   ,{ id: 'archive', owner: '木亦', kind: '檔案整理', title: '找回舊案圖紙', desc: '到檔案室翻找舊案資料，重新整理圖櫃與圖紙標籤。', reward: ['archive_hunt'], specialBonuses: [{ id: 'card_husky_tail_archive', exact: ['husky', 'tail'] }], prompt: '舊圖紙順利找回，也重新整理出一條清楚的查找路線。' }
-  ,{ id: 'woodshop', owner: '羽田', kind: '樣品試作', title: '試作展示層板', desc: '到木工廠確認尺寸、接合方式與木材塗裝效果。', reward: ['woodshop_sample'], specialBonuses: [{ id: 'card_bolo_carpenter', exact: ['bolo'] }], prompt: '層板的尺寸、接合與表面處理都完成了第一輪確認。' }
+  ,{ id: 'woodshop', owner: '羽田', kind: '樣品試作', title: '試作展示層板', desc: '到木工廠確認尺寸、接合方式與木材塗裝效果。', reward: ['woodshop_sample'], participantBonuses: { bolo: 'quote_bolo_waste' }, specialBonuses: [{ id: 'card_bolo_carpenter', exact: ['bolo'] }], prompt: '層板的尺寸、接合與表面處理都完成了第一輪確認。' }
   ,{ id: 'birthday_bolo_mission', owner: '事務所', kind: '限定生日', title: '波蘿胖胖生日早餐', desc: '讓今天的生日主角先好好享用一份鬆餅早餐。', reward: ['birthday_bolo'], requiredCharacters: ['bolo'], prompt: '早餐和禮物都準備好了，波蘿胖胖度過了心滿意足的早晨。' }
   ,{ id: 'birthday_husky_mission', owner: '事務所', kind: '限定生日', title: '姑姑羅生日驚喜', desc: '小心準備彩帶與蛋糕，也要提防生日主角先一步發現機關。', reward: ['birthday_husky'], requiredCharacters: ['husky'], prompt: '姑姑羅不只發現了驚喜，還偷偷把彩帶機關改得更有趣。' }
   ,{ id: 'birthday_toast_mission', owner: '事務所', kind: '限定生日', title: '香蕉吐司生日配色', desc: '挑出蛋糕、緞帶與裝飾最協調的一組生日配色。', reward: ['birthday_toast'], requiredCharacters: ['toast'], prompt: '每一塊色票都比較完成，生日角落呈現出最舒服的配色。' }
@@ -609,7 +613,7 @@ function renderAlbum() {
   const validUnlocked = collectibles.filter(item => state.unlocked.includes(item.id));
   const groups = [
     { id: 'activity', eyebrow: 'OFFICE MOMENTS', title: '事務所活動圖鑑', note: '活動人數依故事自然安排，不限制固定成員數量。' },
-    { id: 'character', eyebrow: 'PERSONAL CARDS', title: '個人與服裝圖鑑卡', note: '與角色完成任務取得個人卡，特定活動還會留下限定服裝卡。' }
+    { id: 'character', eyebrow: 'PERSONAL CARDS', title: '個人圖鑑卡', note: '收集角色的個人卡、限定服裝和事務所語錄。' }
   ];
   app.innerHTML = `
     <div class="section-head"><div><p class="eyebrow">COLLECTION</p><h2>築城事務所圖鑑</h2></div><div><p>${validUnlocked.length}／${collectibles.length} 已收集</p><div class="progress"><i style="width:${validUnlocked.length / collectibles.length * 100}%"></i></div></div></div>
@@ -622,7 +626,7 @@ function renderAlbum() {
           const action = open ? ` type="button" data-open-collectible="${item.id}" aria-label="查看${item.title}完整收藏"` : '';
           return `<${tag} class="album-card ${open ? 'open' : 'locked'} ${open && !state.seen.includes(item.id) ? 'new' : ''}"${action}>
             <div class="album-visual"><img src="${item.image}" alt="${open ? item.title : '尚未解鎖的收藏'}"></div>
-            <div class="album-info"><span class="tag">${open ? item.type : '尚未發現'}</span><h3>${open ? item.title : '？？？'}</h3><p>${open ? item.text : item.hint}</p></div>
+            <div class="album-info"><span class="tag">${open ? item.type : '尚未發現'}</span><h3>${open ? item.title : '？？？'}</h3><p>${open ? (item.quote ? `「${item.quote}」` : item.text) : item.hint}</p></div>
           </${tag}>`;
         }).join('')}
       </div></section>`;
@@ -639,6 +643,7 @@ function openCollectible(id) {
       <div class="collection-detail-copy">
         <span class="tag">${item.type}</span>
         <h2>${item.title}</h2>
+        ${item.quote ? `<blockquote class="character-quote">「${item.quote}」</blockquote>` : ''}
         <p>${item.text}</p>
         <p class="collection-hint">收集線索｜${item.hint}</p>
       </div>
@@ -655,6 +660,9 @@ function openMission(id) {
 }
 
 function drawMissionDialog() {
+  const participationHints = Object.values(selectedMission.participantBonuses || {})
+    .filter(id => !state.unlocked.includes(id))
+    .map(id => byId(id).hint);
   document.querySelector('#mission-dialog-content').innerHTML = `
     <p class="eyebrow">${selectedMission.owner}・${selectedMission.kind}</p>
     <h2 id="mission-title">${selectedMission.title}</h2>
@@ -667,7 +675,7 @@ function drawMissionDialog() {
         return `<button class="employee-choice ${selected ? 'selected' : ''}" type="button" aria-pressed="${selected}" ${locked ? 'disabled' : `data-character="${c.id}"`} style="--avatar:${c.color}"><span class="dot"><img src="${c.avatar}" alt=""></span><span><strong>${c.name}</strong><br><small>${selected && locked ? '本次指定成員' : c.style}</small></span></button>`;
       }).join('')}
     </div>
-    <p class="hint">${selectedMission.participantBonuses ? `聖誕服裝線索｜派${characterNames(Object.keys(selectedMission.participantBonuses))}參與，可取得出勤成員各自的限定服裝卡。` : selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
+    <p class="hint">${participationHints.length ? `收藏線索｜${participationHints.join('。')}` : selectedMission.requiredCharacters ? `這張限定圖鑑需要由${characterNames(selectedMission.requiredCharacters)}完成。` : '沒有最佳人選。特定單人或雙人組合可能發現隱藏收藏卡。'}</p>
     <div class="button-row">
       ${selectedMission.id === 'layout' ? `<button class="button" type="button" data-plan-shop ${canStartMission() ? '' : 'disabled'}>規劃${shopLayouts[(state.day - 1) % shopLayouts.length].title}平面</button>` : ''}
       <button class="button ${selectedMission.id === 'layout' ? 'secondary' : ''}" type="button" data-start-mission ${canStartMission() ? '' : 'disabled'}>${selectedMission.id === 'layout' ? '直接完成勘查' : '開始任務'}</button>

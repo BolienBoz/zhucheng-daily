@@ -1,9 +1,9 @@
-const CACHE = 'zhuyu-collection-v26';
+const CACHE = 'zhuyu-collection-v28';
 const ASSETS = [
   './',
   './index.html',
-  './styles.css?v=26',
-  './app.js?v=26',
+  './styles.css?v=28',
+  './app.js?v=28',
   './assets/desk-props-v23.png',
   './manifest.webmanifest',
   './assets/icon-180.png',
@@ -52,11 +52,15 @@ const ASSETS = [
   ,'./assets/birthday-toast.jpg'
   ,'./assets/birthday-tail.jpg'
   ,'./assets/activity-window-display.jpg'
-  ,'./assets/activity-gift-workshop.jpg'
+  ,'./assets/activity-gift-workshop-v2.jpg'
   ,'./assets/costume-bolo-christmas-v3.jpg'
   ,'./assets/costume-husky-christmas.jpg'
-  ,'./assets/costume-toast-christmas.jpg'
+  ,'./assets/costume-toast-christmas-v2.jpg'
   ,'./assets/costume-tail-christmas.jpg'
+  ,'./assets/quote-husky-area.jpg'
+  ,'./assets/quote-bolo-waste.jpg'
+  ,'./assets/quote-toast-white.jpg'
+  ,'./assets/quote-tail-scale.jpg'
 ];
 
 self.addEventListener('install', event => {
